@@ -6,3 +6,5 @@
 .gradle/nb-cache/PBO_RFID-1814304711/project-info.ser
 *.class
 .gradle/vcs-1/gc.properties
+/.gradle/
+/build/
