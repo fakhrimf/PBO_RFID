@@ -1,0 +1,8 @@
+
+*.bin
+*.lock
+.gradle/4.10.2/gc.properties
+.gradle/buildOutputCleanup/cache.properties
+.gradle/nb-cache/PBO_RFID-1814304711/project-info.ser
+*.class
+.gradle/vcs-1/gc.properties
