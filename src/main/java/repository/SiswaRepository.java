@@ -4,6 +4,6 @@ package repository;
  *
  * @author Fakhri MF
  */
-public class StudentRepository {
+public class SiswaRepository {
     
 }
