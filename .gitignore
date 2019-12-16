@@ -6,3 +6,8 @@
 .gradle/nb-cache/PBO_RFID-1814304711/project-info.ser
 *.class
 .gradle/vcs-1/gc.properties
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml

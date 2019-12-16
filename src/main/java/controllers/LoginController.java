@@ -3,7 +3,6 @@ package controllers;
 import views.LoginForm;
 
 /**
- *
  * @author Fakhri MF
  */
 public class LoginController {
