@@ -25,14 +25,16 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="357a8ab8-2868-41d3-94de-9c449fb60be6">
-        <schema name="" object-types="view, table" />
-        <schema name="main" object-types="view, table" />
+        <schema name="main" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="357a8ab8-2868-41d3-94de-9c449fb60be6">
-      <console name="DB_RFID" type="STANDARD" schema="" session="Main" />
+      <console name="DB_RFID" type="STANDARD" schema="" session="Main">create table t_kelas (
+    id integer primary key autoincrement,
+    nama_kelas varchar not null 
+)</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -40,6 +42,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="357a8ab8-2868-41d3-94de-9c449fb60be6" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="357a8ab8-2868-41d3-94de-9c449fb60be6" dataset="main.t_kehadiran" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
