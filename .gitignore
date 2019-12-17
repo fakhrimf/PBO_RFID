@@ -8,3 +8,9 @@
 .gradle/vcs-1/gc.properties
 /.gradle/
 /build/
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/misc.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/workspace.xml
