@@ -6,7 +6,11 @@ import views.LoginForm;
  * @author Fakhri MF
  */
 public class LoginController {
-    public void showLoginForm(){
+    public LoginController() {
+        showLoginForm();
+    }
+
+    private void showLoginForm() {
         java.awt.EventQueue.invokeLater(() -> new LoginForm().setVisible(true));
     }
 }

@@ -1,8 +1,13 @@
 package views;
 
+import utils.PasswordUtils;
+
 import javax.swing.*;
 import java.awt.*;
-import static utils.Constants.*;
+import java.util.Arrays;
+
+import static utils.Constants.LOGIN_ENTER_COLOR;
+import static utils.Constants.LOGIN_NORMAL_COLOR;
 
 /**
  * @author Fakhri MF
@@ -12,10 +17,6 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         setLocation();
-    }
-    
-    final public void setLocation(){
-        this.setLocationRelativeTo(null);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -60,6 +61,11 @@ public class LoginForm extends javax.swing.JFrame {
                 buttonLoginMouseExited(evt);
             }
         });
+        buttonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLoginActionPerformed(evt);
+            }
+        });
 
         panelHeader.setBackground(new java.awt.Color(32, 34, 37));
         panelHeader.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -79,6 +85,11 @@ public class LoginForm extends javax.swing.JFrame {
         passwordField.setForeground(new java.awt.Color(255, 255, 255));
         passwordField.setBorder(null);
         passwordField.setCaretColor(new java.awt.Color(255, 255, 255));
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
@@ -129,6 +140,7 @@ public class LoginForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="UI Listeners">
     private void buttonLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLoginMouseEntered
         buttonLogin.setBackground(Color.decode(LOGIN_ENTER_COLOR));
     }//GEN-LAST:event_buttonLoginMouseEntered
@@ -136,6 +148,30 @@ public class LoginForm extends javax.swing.JFrame {
     private void buttonLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLoginMouseExited
         buttonLogin.setBackground(Color.decode(LOGIN_NORMAL_COLOR));
     }//GEN-LAST:event_buttonLoginMouseExited
+
+    private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
+        testPassword(passwordField.getPassword());
+    }//GEN-LAST:event_buttonLoginActionPerformed
+
+    private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
+        testPassword(passwordField.getPassword());
+    }//GEN-LAST:event_passwordFieldActionPerformed
+    //</editor-fold>
+
+    // <editor-fold defaultstate="expanded" desc="Functions">
+    private void testPassword(char[] password) {
+        PasswordUtils passwordUtils = new PasswordUtils();
+        byte[] convertedPass = passwordUtils.convert(password);
+        String deconvertedPass = passwordUtils.deconvert(convertedPass);
+        System.out.println("Unconverted Password : " + Arrays.toString(password));
+        System.out.println("Converted Password : " + Arrays.toString(convertedPass));
+        System.out.println("Deconverted Password : " + deconvertedPass);
+    }
+
+    final public void setLocation() {
+        this.setLocationRelativeTo(null);
+    }
+    // </editor-fold>
 
     public static void main(String[] args) {
         /* Set the Nimbus look and feel */
@@ -153,7 +189,6 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         java.awt.EventQueue.invokeLater(() -> {
