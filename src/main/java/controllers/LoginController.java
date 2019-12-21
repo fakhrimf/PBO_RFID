@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import views.LoginForm;
+import views.dark.LoginForm;
 
 /**
  *
