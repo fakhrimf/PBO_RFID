@@ -163,14 +163,14 @@ public class LoginForm extends javax.swing.JFrame {
     private void testPassword() {
 
         final String secretKey = "Encrpytion";
-        String originalString = passwordField.getPassword().toString();
+        String originalString = String.valueOf(passwordField.getPassword());
 
         String encryptedString = PasswordUtils.encrypt(originalString, secretKey);
         String decryptedString = PasswordUtils.decrypt(encryptedString, secretKey);
 
         System.out.println("Password yang dimasukkan : " + originalString);
-        System.out.println("Password hasil enkripsi : "+ encryptedString);
-        System.out.println("Password hasil deskripsi : "+ decryptedString);
+        System.out.println("Password hasil enkripsi  : "+ encryptedString);
+        System.out.println("Password hasil deskripsi : "+ decryptedString + "\n");
 
         //        byte[] convertedPass = passwordUtils.convert(password);
 //        String deconvertedPass = passwordUtils.deconvert(convertedPass);
