@@ -1,5 +1,7 @@
-package views;
+package views.dark;
 
+import views.light.*;
+import views.dark.*;
 import utils.PasswordUtils;
 import utils.SQLiteConnection;
 
@@ -29,17 +31,35 @@ public class LoginForm extends javax.swing.JFrame {
     private void initComponents() {
 
         panelMain = new javax.swing.JPanel();
+        panelHeader = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         labelUsername = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
         labelPassword = new javax.swing.JLabel();
-        buttonLogin = new javax.swing.JButton();
-        panelHeader = new javax.swing.JPanel();
         passwordField = new javax.swing.JPasswordField();
+        buttonLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelMain.setBackground(new java.awt.Color(32, 34, 37));
+        panelMain.setBackground(new java.awt.Color(102, 102, 102));
 
+        panelHeader.setBackground(new java.awt.Color(255, 255, 255));
+        panelHeader.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
+        panelHeader.setLayout(panelHeaderLayout);
+        panelHeaderLayout.setHorizontalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 460, Short.MAX_VALUE)
+        );
+        panelHeaderLayout.setVerticalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 43, Short.MAX_VALUE)
+        );
+
+        jPanel1.setBackground(new java.awt.Color(32, 34, 37));
+
+        labelUsername.setBackground(new java.awt.Color(255, 255, 255));
         labelUsername.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         labelUsername.setForeground(new java.awt.Color(255, 255, 255));
         labelUsername.setText("Username");
@@ -49,15 +69,30 @@ public class LoginForm extends javax.swing.JFrame {
         usernameField.setForeground(new java.awt.Color(255, 255, 255));
         usernameField.setBorder(null);
         usernameField.setCaretColor(new java.awt.Color(255, 255, 255));
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
 
         labelPassword.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         labelPassword.setForeground(new java.awt.Color(255, 255, 255));
         labelPassword.setText("Password");
 
+        passwordField.setBackground(new java.awt.Color(47, 49, 54));
+        passwordField.setForeground(new java.awt.Color(255, 255, 255));
+        passwordField.setBorder(null);
+        passwordField.setCaretColor(new java.awt.Color(255, 255, 255));
+        passwordField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordFieldActionPerformed(evt);
+            }
+        });
+
         buttonLogin.setBackground(new java.awt.Color(85, 99, 233));
         buttonLogin.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         buttonLogin.setForeground(new java.awt.Color(255, 255, 255));
-        buttonLogin.setText("Login");
+        buttonLogin.setText("LOGIN");
         buttonLogin.setBorder(null);
         buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -66,6 +101,9 @@ public class LoginForm extends javax.swing.JFrame {
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 buttonLoginMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                buttonLoginMouseEntered(evt);
             }
         });
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -87,16 +125,6 @@ public class LoginForm extends javax.swing.JFrame {
                 panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 38, Short.MAX_VALUE)
         );
-
-        passwordField.setBackground(new java.awt.Color(47, 49, 54));
-        passwordField.setForeground(new java.awt.Color(255, 255, 255));
-        passwordField.setBorder(null);
-        passwordField.setCaretColor(new java.awt.Color(255, 255, 255));
-        passwordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
@@ -164,6 +192,10 @@ public class LoginForm extends javax.swing.JFrame {
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
 //        testPassword();
     }//GEN-LAST:event_passwordFieldActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
     //</editor-fold>
 
     // <editor-fold defaultstate="expanded" desc="Functions">
@@ -218,6 +250,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     final public void setLocation() {
         this.setLocationRelativeTo(null);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
     // </editor-fold>
 
@@ -238,6 +271,9 @@ public class LoginForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         java.awt.EventQueue.invokeLater(() -> {
             new LoginForm().setVisible(true);
@@ -246,6 +282,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonLogin;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelPassword;
     private javax.swing.JLabel labelUsername;
     private javax.swing.JPanel panelHeader;
