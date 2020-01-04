@@ -1,9 +1,13 @@
 package views;
 
 import utils.PasswordUtils;
+import utils.SQLiteConnection;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 
 import static utils.Constants.LOGIN_ENTER_COLOR;
@@ -13,9 +17,11 @@ import static utils.Constants.LOGIN_NORMAL_COLOR;
  * @author Fakhri MF
  */
 public class LoginForm extends javax.swing.JFrame {
+    Connection con;
 
     public LoginForm() {
         initComponents();
+        con = SQLiteConnection.connect("db_rfid.db");
         setLocation();
     }
 
@@ -151,7 +157,8 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonLoginMouseExited
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
-        testPassword();
+//        testPassword();
+        testlogin();
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
@@ -160,19 +167,54 @@ public class LoginForm extends javax.swing.JFrame {
     //</editor-fold>
 
     // <editor-fold defaultstate="expanded" desc="Functions">
-    private void testPassword() {
+    private void testlogin() {
 
-        final String secretKey = "Encrpytion";
-        String originalPass = String.valueOf(passwordField.getPassword());
+        try {
+            String username = usernameField.getText();
+            final String secretKey = "Encrpytion";
+            String originalPass = String.valueOf(passwordField.getPassword());
+            if (originalPass != null) {
 
-        String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
-        String decryptedString = PasswordUtils.decrypt(encryptedString, secretKey);
+                String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
+//                String passDb = "SELECT password FROM t_user WHERE password= '"+encryptedString+"'";
+//                String decryptedString = PasswordUtils.decrypt(passDb, secretKey);
 
-        System.out.println("Password yang dimasukkan : " + originalPass);
-        System.out.println("Password hasil enkripsi  : "+ encryptedString);
-        System.out.println("Password hasil deskripsi : "+ decryptedString + "\n");
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
+                        + "'";
+                System.out.println(query);
+                ResultSet rs = stmt.executeQuery(query);
+                if (rs.next()) {
+                    if (usernameField.getText().equals(rs.getString("username")) && encryptedString.equals(rs.getString("password"))) {
+                        JOptionPane.showMessageDialog(null, "berhasil login");
+                        new HomeForm().setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Username atau Password salah");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
 
     }
+
+//    private void testPassword() {
+//
+//        final String secretKey = "Encrpytion";
+//        String originalPass = String.valueOf(passwordField.getPassword());
+//        if (originalPass != null) {
+//            String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
+//            String passDb = "SELECT password FROM t_user";
+//            String decryptedString = PasswordUtils.decrypt(passDb, secretKey);
+//            System.out.println("Password yang dimasukkan : " + originalPass);
+//            System.out.println("Password hasil enkripsi  : " + encryptedString);
+//            System.out.println("Password hasil deskripsi : " + decryptedString + "\n");
+//        }else{
+//            JOptionPane.showMessageDialog(null, "Password Kosong");
+//        }
+//    }
 
     final public void setLocation() {
         this.setLocationRelativeTo(null);
