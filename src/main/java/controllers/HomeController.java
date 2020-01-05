@@ -1,6 +1,6 @@
 package controllers;
 
-import views.HomeForm;
+import views.dark.HomeForm;
 
 public class HomeController {
     public HomeController() {

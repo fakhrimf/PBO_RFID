@@ -1,5 +1,6 @@
 package views.light;
 
+import controllers.HomeController;
 import views.dark.*;
 import utils.PasswordUtils;
 
@@ -187,12 +188,12 @@ public class LoginForm extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="expanded" desc="Functions">
     private void testPassword(char[] password) {
-        PasswordUtils passwordUtils = new PasswordUtils();
-        byte[] convertedPass = passwordUtils.convert(password);
-        String deconvertedPass = passwordUtils.deconvert(convertedPass);
-        System.out.println("Unconverted Password : " + Arrays.toString(password));
-        System.out.println("Converted Password : " + Arrays.toString(convertedPass));
-        System.out.println("Deconverted Password : " + deconvertedPass);
+//        PasswordUtils passwordUtils = new PasswordUtils();
+//        byte[] convertedPass = passwordUtils.convert(password);
+//        String deconvertedPass = passwordUtils.deconvert(convertedPass);
+//        System.out.println("Unconverted Password : " + Arrays.toString(password));
+//        System.out.println("Converted Password : " + Arrays.toString(convertedPass));
+//        System.out.println("Deconverted Password : " + deconvertedPass);
     }
 
     private boolean isFieldsEmpty() {

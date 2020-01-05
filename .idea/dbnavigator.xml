@@ -23,14 +23,19 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="357a8ab8-2868-41d3-94de-9c449fb60be6">
+        <schema name="main" object-types="view, table" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="357a8ab8-2868-41d3-94de-9c449fb60be6">
       <console name="DB_RFID" type="STANDARD" schema="main" session="Main"><![CDATA[create table t_kelas (
     id integer primary key autoincrement,
     nama_kelas varchar not null 
-)]]></console>
+)
+select * from t_user;]]></console>
     </connection>
     <connection id="5ed234a2-dd4d-4a97-8806-8ab721c5f2e3">
       <console name="Connection" type="STANDARD" schema="" session="Main" />
@@ -161,7 +166,7 @@
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="3.21" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
@@ -170,7 +175,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="sqlite.db" schema="main" />
+            <file path="C:\Users\Lenovo\Documents\NetBeansProjects\PBO_RFID\src\main\db\db_rfid.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

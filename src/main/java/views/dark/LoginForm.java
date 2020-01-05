@@ -1,16 +1,9 @@
 package views.dark;
 
-import views.light.*;
-import views.dark.*;
 import utils.PasswordUtils;
-import utils.SQLiteConnection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Arrays;
 
 import static utils.Constants.LOGIN_ENTER_COLOR;
 import static utils.Constants.LOGIN_NORMAL_COLOR;
@@ -19,11 +12,9 @@ import static utils.Constants.LOGIN_NORMAL_COLOR;
  * @author Fakhri MF
  */
 public class LoginForm extends javax.swing.JFrame {
-    Connection con;
 
     public LoginForm() {
         initComponents();
-        con = SQLiteConnection.connect("db_rfid.db");
         setLocation();
     }
 
@@ -49,12 +40,12 @@ public class LoginForm extends javax.swing.JFrame {
         javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
-            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 460, Short.MAX_VALUE)
+                panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 460, Short.MAX_VALUE)
         );
         panelHeaderLayout.setVerticalGroup(
-            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 43, Short.MAX_VALUE)
+                panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 43, Short.MAX_VALUE)
         );
 
         jPanel1.setBackground(new java.awt.Color(32, 34, 37));
@@ -95,13 +86,10 @@ public class LoginForm extends javax.swing.JFrame {
         buttonLogin.setText("LOGIN");
         buttonLogin.setBorder(null);
         buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                buttonLoginMouseEntered(evt);
-            }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 buttonLoginMouseExited(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 buttonLoginMouseEntered(evt);
             }
@@ -114,8 +102,6 @@ public class LoginForm extends javax.swing.JFrame {
 
         panelHeader.setBackground(new java.awt.Color(32, 34, 37));
         panelHeader.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
                 panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,12 +171,11 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonLoginMouseExited
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
-//        testPassword();
-        testlogin();
+        login();
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-//        testPassword();
+        login();
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
@@ -199,58 +184,21 @@ public class LoginForm extends javax.swing.JFrame {
     //</editor-fold>
 
     // <editor-fold defaultstate="expanded" desc="Functions">
-    private void testlogin() {
-
-        try {
-            String username = usernameField.getText();
-            final String secretKey = "Encrpytion";
-            String originalPass = String.valueOf(passwordField.getPassword());
-            if (originalPass != null) {
-
-                String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
-//                String passDb = "SELECT password FROM t_user WHERE password= '"+encryptedString+"'";
-//                String decryptedString = PasswordUtils.decrypt(passDb, secretKey);
-
-                Statement stmt = con.createStatement();
-                String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
-                        + "'";
-                System.out.println(query);
-                ResultSet rs = stmt.executeQuery(query);
-                if (rs.next()) {
-                    if (usernameField.getText().equals(rs.getString("username")) && encryptedString.equals(rs.getString("password"))) {
-                        JOptionPane.showMessageDialog(null, "berhasil login");
-                        new HomeForm().setVisible(true);
-                        this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Username atau Password salah");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+    private void login() {
+        PasswordUtils passwordUtils = new PasswordUtils();
+        boolean isRight = passwordUtils.login(usernameField.getText(), passwordField.getPassword());
+        if(isRight) {
+            HomeForm homeForm = new HomeForm();
+            homeForm.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Username atau Password salah");
         }
-
     }
-
-//    private void testPassword() {
-//
-//        final String secretKey = "Encrpytion";
-//        String originalPass = String.valueOf(passwordField.getPassword());
-//        if (originalPass != null) {
-//            String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
-//            String passDb = "SELECT password FROM t_user";
-//            String decryptedString = PasswordUtils.decrypt(passDb, secretKey);
-//            System.out.println("Password yang dimasukkan : " + originalPass);
-//            System.out.println("Password hasil enkripsi  : " + encryptedString);
-//            System.out.println("Password hasil deskripsi : " + decryptedString + "\n");
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Password Kosong");
-//        }
-//    }
 
     final public void setLocation() {
         this.setLocationRelativeTo(null);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     // </editor-fold>
 
@@ -270,9 +218,6 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         java.awt.EventQueue.invokeLater(() -> {
