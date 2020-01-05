@@ -1,6 +1,5 @@
 package views.light;
 
-import controllers.HomeController;
 import views.dark.*;
 import utils.PasswordUtils;
 

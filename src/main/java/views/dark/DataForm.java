@@ -7,14 +7,15 @@ package views.dark;
 
 import javax.swing.JFrame;
 
-import javax.swing.*;
-
 /**
  *
  * @author Azriel
  */
 public class DataForm extends javax.swing.JFrame {
 
+    /**
+     * Creates new form Home
+     */
     public DataForm() {
         initComponents();
         setLocation();

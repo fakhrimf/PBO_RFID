@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 
-import static utils.Constants.PASSWORD_INSTANCE;
+//import static utils.Constants.PASSWORD_INSTANCE;
 
 /**
  * @author Raden Gilang S and Fakhri MF
@@ -50,25 +50,9 @@ public class PasswordUtils {
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         }
-        byte[] salt = new byte[8];
-
-        PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(salt, 100);
-
-        Cipher cipher = null;
-        try {
-            cipher = Cipher.getInstance(PASSWORD_INSTANCE);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, pbeParameterSpec);
-        } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchPaddingException e) {
-            e.printStackTrace();
-        }
-
-        byte[] output = new byte[0];
-        try {
-            if (cipher != null) {
-                output = cipher.doFinal();
-            }
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
+        catch (Exception e)
+        {
+            System.out.println("Error while encrypting: " + e.toString());
         }
         return null;
     }
