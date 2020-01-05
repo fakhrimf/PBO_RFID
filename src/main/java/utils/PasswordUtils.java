@@ -3,11 +3,15 @@ package utils;
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Random;
 
 import static utils.Constants.PASSWORD_INSTANCE;
@@ -16,72 +20,43 @@ import static utils.Constants.PASSWORD_INSTANCE;
  * @author Raden Gilang S and Fakhri MF
  */
 public class PasswordUtils {
-    public byte[] encrypt(char[] password) {
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(password);
-        SecretKeyFactory secretKeyFactory = null;
-        try {
-            secretKeyFactory = SecretKeyFactory.getInstance(PASSWORD_INSTANCE);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        SecretKey secretKey = null;
-        try {
-            if (secretKeyFactory != null) {
-                secretKey = secretKeyFactory.generateSecret(pbeKeySpec);
-            }
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
+    private static SecretKeySpec secretKey;
+    private static byte[] key;
 
+    public static void setKey(String myKey)
+    {
+        MessageDigest sha = null;
+        try {
+            key = myKey.getBytes("UTF-8");
+            sha = MessageDigest.getInstance("SHA-1");
+            key = sha.digest(key);
+            key = Arrays.copyOf(key, 16);
+            secretKey = new SecretKeySpec(key, "AES");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String encrypt(String strToEncrypt, String secret)
+    {
+        try
+        {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+        }
         byte[] salt = new byte[8];
-        Random random = new Random();
-        random.nextBytes(salt);
 
         PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(salt, 100);
+
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance(PASSWORD_INSTANCE);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
-        }
-        try {
-            if (cipher != null) {
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey, pbeParameterSpec);
-            }
-        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        }
-
-        byte[] output = new byte[0];
-        try {
-            if (cipher != null) {
-                output = cipher.doFinal();
-            }
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
-        }
-        return output;
-    }
-
-    public String decrypt(byte[] encryptedPassword) {
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(Arrays.toString(encryptedPassword).toCharArray());
-        SecretKeyFactory secretKeyFactory;
-        SecretKey secretKey = null;
-        try {
-            secretKeyFactory = SecretKeyFactory.getInstance(PASSWORD_INSTANCE);
-            if (secretKeyFactory != null) {
-                secretKey = secretKeyFactory.generateSecret(pbeKeySpec);
-            }
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        byte[] salt = new byte[8];
-
-        PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(salt, 100);
-
-        Cipher cipher = null;
-        try {
-            cipher = Cipher.getInstance("PBEWithMD5AndTripleDES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey, pbeParameterSpec);
         } catch (NoSuchAlgorithmException | InvalidAlgorithmParameterException | InvalidKeyException | NoSuchPaddingException e) {
             e.printStackTrace();
@@ -95,14 +70,22 @@ public class PasswordUtils {
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
         }
-        return new String(output);
+        return null;
     }
 
-    public byte[] convert(char[] password) {
-        return String.valueOf(password).getBytes();
-    }
-
-    public String deconvert(byte[] password) {
-        return new String(password);
+    public static String decrypt(String strToDecrypt, String secret)
+    {
+        try
+        {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error while decrypting: " + e.toString());
+        }
+        return null;
     }
 }
