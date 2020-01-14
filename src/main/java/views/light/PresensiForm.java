@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.dark;
+package views.light;
 
+import views.dark.*;
 import javax.swing.JFrame;
 
 /**
@@ -51,7 +52,7 @@ public class PresensiForm extends javax.swing.JFrame {
 
         panelMain.setBackground(new java.awt.Color(54, 57, 63));
 
-        panelHeader.setBackground(new java.awt.Color(32, 34, 37));
+        panelHeader.setBackground(new java.awt.Color(248, 248, 248));
         panelHeader.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
@@ -65,7 +66,7 @@ public class PresensiForm extends javax.swing.JFrame {
             .addGap(0, 42, Short.MAX_VALUE)
         );
 
-        panelSidebar.setBackground(new java.awt.Color(32, 34, 37));
+        panelSidebar.setBackground(new java.awt.Color(248, 248, 248));
 
         javax.swing.GroupLayout panelSidebarLayout = new javax.swing.GroupLayout(panelSidebar);
         panelSidebar.setLayout(panelSidebarLayout);
@@ -78,7 +79,7 @@ public class PresensiForm extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        panelMenu.setBackground(new java.awt.Color(41, 43, 47));
+        panelMenu.setBackground(new java.awt.Color(254, 254, 254));
         panelMenu.setMaximumSize(new java.awt.Dimension(320, 32767));
 
         labelKehadiran1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
@@ -102,9 +103,9 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(54, 57, 63));
+        jPanel1.setBackground(new java.awt.Color(242, 242, 242));
 
-        panelAbsen.setBackground(new java.awt.Color(32, 34, 37));
+        panelAbsen.setBackground(new java.awt.Color(254, 254, 254));
 
         labelKehadiran.setFont(new java.awt.Font("Poppins", 1, 25)); // NOI18N
         labelKehadiran.setForeground(new java.awt.Color(142, 146, 151));
@@ -153,7 +154,7 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        panelAbsen1.setBackground(new java.awt.Color(32, 34, 37));
+        panelAbsen1.setBackground(new java.awt.Color(254, 254, 254));
 
         labelKehadiran5.setFont(new java.awt.Font("Poppins", 1, 25)); // NOI18N
         labelKehadiran5.setForeground(new java.awt.Color(142, 146, 151));
@@ -292,6 +293,22 @@ public class PresensiForm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PresensiForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
