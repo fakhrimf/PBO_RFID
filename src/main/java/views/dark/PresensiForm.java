@@ -5,20 +5,17 @@
  */
 package views.dark;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import models.PresensiModel;
+import views.dark.format.presensiTemplate;
 
-/**
- *
- * @author iel
- */
 public class PresensiForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Home
-     */
     public PresensiForm() {
         initComponents();
         setLocation();
+        testing();
     }
 
     /**
@@ -36,16 +33,8 @@ public class PresensiForm extends javax.swing.JFrame {
         panelMenu = new javax.swing.JPanel();
         labelKehadiran1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        panelAbsen = new javax.swing.JPanel();
-        labelKehadiran = new javax.swing.JLabel();
-        labelKehadiran2 = new javax.swing.JLabel();
-        labelKehadiran3 = new javax.swing.JLabel();
-        labelKehadiran4 = new javax.swing.JLabel();
-        panelAbsen1 = new javax.swing.JPanel();
-        labelKehadiran5 = new javax.swing.JLabel();
-        labelKehadiran6 = new javax.swing.JLabel();
-        labelKehadiran7 = new javax.swing.JLabel();
-        labelKehadiran8 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,123 +93,17 @@ public class PresensiForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(54, 57, 63));
 
-        panelAbsen.setBackground(new java.awt.Color(32, 34, 37));
-
-        labelKehadiran.setFont(new java.awt.Font("Poppins", 1, 25)); // NOI18N
-        labelKehadiran.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran.setText("John Doe");
-
-        labelKehadiran2.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
-        labelKehadiran2.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran2.setText("Absen 12");
-
-        labelKehadiran3.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
-        labelKehadiran3.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran3.setText("06:00:00");
-
-        labelKehadiran4.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
-        labelKehadiran4.setForeground(new java.awt.Color(96, 221, 65));
-        labelKehadiran4.setText("Hadir");
-
-        javax.swing.GroupLayout panelAbsenLayout = new javax.swing.GroupLayout(panelAbsen);
-        panelAbsen.setLayout(panelAbsenLayout);
-        panelAbsenLayout.setHorizontalGroup(
-            panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAbsenLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran)
-                    .addComponent(labelKehadiran2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran3)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsenLayout.createSequentialGroup()
-                        .addComponent(labelKehadiran4)
-                        .addGap(20, 20, 20)))
-                .addGap(29, 29, 29))
-        );
-        panelAbsenLayout.setVerticalGroup(
-            panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAbsenLayout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelKehadiran)
-                    .addComponent(labelKehadiran4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran3)
-                    .addComponent(labelKehadiran2))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-
-        panelAbsen1.setBackground(new java.awt.Color(32, 34, 37));
-
-        labelKehadiran5.setFont(new java.awt.Font("Poppins", 1, 25)); // NOI18N
-        labelKehadiran5.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran5.setText("John Doe");
-
-        labelKehadiran6.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
-        labelKehadiran6.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran6.setText("Absen 12");
-
-        labelKehadiran7.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
-        labelKehadiran7.setForeground(new java.awt.Color(142, 146, 151));
-        labelKehadiran7.setText("06:00:00");
-
-        labelKehadiran8.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
-        labelKehadiran8.setForeground(new java.awt.Color(96, 221, 65));
-        labelKehadiran8.setText("Hadir");
-
-        javax.swing.GroupLayout panelAbsen1Layout = new javax.swing.GroupLayout(panelAbsen1);
-        panelAbsen1.setLayout(panelAbsen1Layout);
-        panelAbsen1Layout.setHorizontalGroup(
-            panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAbsen1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran5)
-                    .addComponent(labelKehadiran6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                .addGroup(panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran7)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsen1Layout.createSequentialGroup()
-                        .addComponent(labelKehadiran8)
-                        .addGap(20, 20, 20)))
-                .addGap(29, 29, 29))
-        );
-        panelAbsen1Layout.setVerticalGroup(
-            panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAbsen1Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelKehadiran5)
-                    .addComponent(labelKehadiran8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-                .addGroup(panelAbsen1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelKehadiran7)
-                    .addComponent(labelKehadiran6))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
+        jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelAbsen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelAbsen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(panelAbsen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -271,65 +154,31 @@ public class PresensiForm extends javax.swing.JFrame {
     }
     
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PresensiForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PresensiForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PresensiForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PresensiForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PresensiForm().setVisible(true);
             }
         });
     }
+    
+    public void testing()
+    {
+        DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
+        for(int i = 0; i<=5; i++)
+        {
+            defaultListModel.addElement(
+                    new PresensiModel("Cimon", "Absen", "Hadir", "10:53:21")
+            );            
+        }
+        jList1.setModel(defaultListModel);
+        jList1.setCellRenderer(new presensiTemplate());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<PresensiModel> jList1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labelKehadiran;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelKehadiran1;
-    private javax.swing.JLabel labelKehadiran2;
-    private javax.swing.JLabel labelKehadiran3;
-    private javax.swing.JLabel labelKehadiran4;
-    private javax.swing.JLabel labelKehadiran5;
-    private javax.swing.JLabel labelKehadiran6;
-    private javax.swing.JLabel labelKehadiran7;
-    private javax.swing.JLabel labelKehadiran8;
-    private javax.swing.JPanel panelAbsen;
-    private javax.swing.JPanel panelAbsen1;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelMenu;
