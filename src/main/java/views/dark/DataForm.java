@@ -81,6 +81,7 @@ public class DataForm extends javax.swing.JFrame {
         panelMenu.setBackground(new java.awt.Color(41, 43, 47));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Ellipse 6.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(142, 146, 151));
@@ -100,9 +101,11 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Vector_1.png"))); // NOI18N
+
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel8.setText("   Home");
+        jLabel8.setText("Home");
 
         javax.swing.GroupLayout panelBtnHomeLayout = new javax.swing.GroupLayout(panelBtnHome);
         panelBtnHome.setLayout(panelBtnHomeLayout);
@@ -134,6 +137,8 @@ public class DataForm extends javax.swing.JFrame {
                 panelBtnPresensiMouseClicked(evt);
             }
         });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/bx_bx-line-chart.png"))); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(142, 146, 151));
@@ -175,9 +180,11 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Vector (1)_1.png"))); // NOI18N
+
         jLabel10.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel10.setText("   Rekapan");
+        jLabel10.setText(" Rekapan");
 
         javax.swing.GroupLayout panelBtnRekapanLayout = new javax.swing.GroupLayout(panelBtnRekapan);
         panelBtnRekapan.setLayout(panelBtnRekapanLayout);
@@ -187,7 +194,7 @@ public class DataForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBtnRekapanLayout.setVerticalGroup(

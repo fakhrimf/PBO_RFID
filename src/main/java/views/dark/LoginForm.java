@@ -141,10 +141,10 @@ public class LoginForm extends javax.swing.JFrame {
         panelMain.add(jPanel1);
         jPanel1.setBounds(520, 270, 354, 290);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\LAIN LAIN\\FAEDAH\\Produktif(RANDOM)\\K O D I N G\\A p k\\desktop\\HADIR 23JAN V2\\PBO_RFID\\src\\main\\java\\assets\\landscape 1.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/landscape 1.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         panelMain.add(jLabel1);
-        jLabel1.setBounds(0, 47, 1360, 720);
+        jLabel1.setBounds(0, -3, 1360, 770);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
