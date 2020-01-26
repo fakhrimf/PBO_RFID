@@ -11,4 +11,5 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     compile group:'org.xerial', name:'sqlite-jdbc', version:'3.28.0'
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
 }
