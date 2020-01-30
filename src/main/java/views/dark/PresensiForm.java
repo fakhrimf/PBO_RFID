@@ -352,7 +352,7 @@ public class PresensiForm extends javax.swing.JFrame {
         {
             defaultListModel.addElement(
                 new PresensiModel("John Doe", "Absen 3", "Hadir", "10:53:21")
-            );            
+            );
         }
         jList1.setModel(defaultListModel);
         jList1.setCellRenderer(new presensiTemplate());

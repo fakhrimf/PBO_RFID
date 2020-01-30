@@ -8,6 +8,7 @@ package utils;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,23 +23,20 @@ import java.io.IOException;
  */
 public class FirebaseConnection {
  
-    public void sdk_admin() throws IOException{
+    public static  DatabaseReference getReference(String field) throws IOException{
 
-        // Fetch the service account key JSON file contents
-        FileInputStream serviceAccount =
-          new FileInputStream("src\\main\\db\\kumascanner-firebase-adminsdk-m3epa-2ab5b27c8f.json");
+        FileInputStream serviceAccount = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
+        System.out.println(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
 
-        // Initialize the app with a service account, granting admin privileges
         FirebaseOptions options = new FirebaseOptions.Builder()
           .setCredentials(GoogleCredentials.fromStream(serviceAccount))
           .setDatabaseUrl("https://kumascanner.firebaseio.com")
           .build();
 
         FirebaseApp.initializeApp(options);
-        
-        // As an admin, the app has access to read and write all data, regardless of Security Rules
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-            .getReference("restricted_access/secret_document");
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(field);
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
@@ -50,7 +48,8 @@ public class FirebaseConnection {
           public void onCancelled(DatabaseError error) {
           }
         });
-        
+ 
+        return ref;
     }
    
 }
