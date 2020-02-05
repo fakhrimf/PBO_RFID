@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 public class FirebaseConnection {
  
-    public static  DatabaseReference getReference(String field) throws IOException{
+    public static DatabaseReference getReference(String field) throws IOException{
 
         FileInputStream serviceAccount = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
         System.out.println(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
@@ -37,18 +37,6 @@ public class FirebaseConnection {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(field);
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-            Object document = dataSnapshot.getValue();
-            System.out.println(document);
-          }
-
-          @Override
-          public void onCancelled(DatabaseError error) {
-          }
-        });
- 
         return ref;
     }
    

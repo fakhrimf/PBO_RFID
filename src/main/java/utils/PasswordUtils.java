@@ -39,65 +39,65 @@ public class PasswordUtils {
     private String DB_Password = "password";
     FirebaseConnection konek;
 
-    public boolean login(String username, char[] password) throws FileNotFoundException, IOException {
-   //     con = SQLiteConnection.connect(DB_NAME);
-        final String secretKey = PASSWORD_KEY;
-        String originalPass = String.valueOf(password);
-        String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
-        boolean isRight = false;
-       
-        FileInputStream serviceAccount =
-          new FileInputStream("src\\main\\db\\kumascanner-firebase-adminsdk-m3epa-2ab5b27c8f.json");
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-          .setDatabaseUrl("https://kumascanner.firebaseio.com")
-          .build();
-
-        FirebaseApp.initializeApp(options);
-        
-        final DatabaseReference rootRef = FirebaseDatabase.getInstance()
-            .getReference("restricted_access/secret_document");
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-          
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-          
-            Object document = dataSnapshot.getValue();
-            System.out.println(document);
-            
-            if(dataSnapshot.child(DB_Parent).child(username).exists()){
-    
-                UserModel users = dataSnapshot.child(DB_Parent).child(username).getValue(UserModel.class);
-                
-                if(users.getUsername().equals(username) && users.getPassword().equals(originalPass)){
-                    final boolean isRight = true;
-                }
-            }
-          }
-
-          @Override
-          public void onCancelled(DatabaseError error) {
-          }
-
-        });
-    
-//        Statement stmt;
-//        try {
-//            stmt = con.createStatement();
-//            String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
-//                    + "'";
-//            ResultSet rs = stmt.executeQuery(query);
-//            if(rs.next() && encryptedString != null) {
-//                isRight = username.equals(rs.getString(USERNAME_DB_FIELD)) && encryptedString.equals(rs.getString(PASSWORD_DB_FIELD));
+//    public boolean login(String username, char[] password) throws FileNotFoundException, IOException {
+//   //     con = SQLiteConnection.connect(DB_NAME);
+//        final String secretKey = PASSWORD_KEY;
+//        String originalPass = String.valueOf(password);
+//        String field ="" ;
+//        String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
+//        boolean isRight = false;
+//        
+//        FileInputStream serviceAccount = new FileInputStream(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
+//        System.out.println(System.getProperty("user.dir")+"/src/main/resources/db/kumascanner-firebase-adminsdk-m3epa-a081569a33.json");
+//
+//        FirebaseOptions options = new FirebaseOptions.Builder()
+//          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+//          .setDatabaseUrl("https://kumascanner.firebaseio.com")
+//          .build();
+//
+//        FirebaseApp.initializeApp(options);
+//
+//        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(field);
+//        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//          
+//          @Override
+//          public void onDataChange(DataSnapshot dataSnapshot) {
+//          
+//            Object document = dataSnapshot.getValue();
+//            System.out.println(document);
+//            
+//            if(dataSnapshot.child(DB_Parent).child(username).exists()){
+//    
+//                UserModel users = dataSnapshot.child(DB_Parent).child(username).getValue(UserModel.class);
+//                
+//                if(users.getUsername().equals(username) && users.getPassword().equals(originalPass)){
+//                 ///   isRight = true;
+//                }
 //            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+//          }
+//
+//          @Override
+//          public void onCancelled(DatabaseError error) {
+//          }
+//
+//        });
+//    
+////        Statement stmt;
+////        try {
+////            stmt = con.createStatement();
+////            String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
+////                    + "'";
+////            ResultSet rs = stmt.executeQuery(query);
+////            if(rs.next() && encryptedString != null) {
+////                isRight = username.equals(rs.getString(USERNAME_DB_FIELD)) && encryptedString.equals(rs.getString(PASSWORD_DB_FIELD));
+////            }
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+////        return isRight;
 //        return isRight;
-        return isRight;
-    }
-    
+//    }
+//    
     
        
 

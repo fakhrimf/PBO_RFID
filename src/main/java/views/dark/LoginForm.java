@@ -1,23 +1,75 @@
 package views.dark;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import utils.PasswordUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.spec.SecretKeySpec;
 
 import static utils.Constants.LOGIN_ENTER_COLOR;
 import static utils.Constants.LOGIN_NORMAL_COLOR;
+import static utils.Constants.PASSWORD_KEY;
+import utils.FirebaseConnection;
+import models.UserModel;
 
 /**
  * @author Fakhri MF
  */
 public class LoginForm extends javax.swing.JFrame {
+    private static SecretKeySpec secretKey;
+    Connection con;
+    private String DB_Parent = "Guru";
+    private String DB_Username = "username";
+    private String DB_Password = "password";
+    DatabaseReference db;
+    ArrayList<UserModel> dataguru = new ArrayList<UserModel>();
+    boolean status_db=false;
+    
+    public void initdb(){
+        db.addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            dataguru.clear();
+            for(DataSnapshot kumass : dataSnapshot.getChildren()){
+                UserModel guru = kumass.getValue(UserModel.class);
+                dataguru.add(guru);
+            }
+            status_db=true;
+            System.out.print("Database Selesai Di Inisiasi");
+            
+          }
 
+          @Override
+          public void onCancelled(DatabaseError error) {
+          }
+
+        });
+    }
+    
     public LoginForm() {
         initComponents();
+        try{
+            db = FirebaseConnection.getReference(DB_Parent);
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        initdb();
         setLocation();
         
         // Membuat panel header transparan
@@ -181,11 +233,11 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        try {
-            login();
-        } catch (IOException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            login();
+//        } catch (IOException ex) {
+//            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
@@ -195,15 +247,66 @@ public class LoginForm extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="expanded" desc="Functions">
     private void login() throws IOException, IOException {
-        PasswordUtils passwordUtils = new PasswordUtils();
-        boolean isRight = passwordUtils.login(usernameField.getText(), passwordField.getPassword());
-        if(isRight) {
-            HomeForm homeForm = new HomeForm();
-            homeForm.setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Username atau Password salah");
+        final String secretKey = PASSWORD_KEY;
+        
+        String username = usernameField.getText();
+        String password = passwordField.getPassword().toString();
+        String originalPass = String.valueOf(passwordField.getPassword());
+        
+        PasswordUtils pass = new PasswordUtils();
+        String encryptedString = pass.encrypt(originalPass, secretKey);
+        
+        if(username.equalsIgnoreCase("") || password.equalsIgnoreCase("")){
+            JOptionPane.showMessageDialog(null, "Username atau Password kosong");
+        }else {
+//            HomeForm homeForm = new HomeForm();
+//                LoginForm login = new LoginForm();
+//                homeForm.setVisible(true);
+//                login.dispose();
+            Access(username,originalPass);
+//            JOptionPane.showMessageDialog(null, "Username atau Password salah");
         }
+
+        
+//        PasswordUtils passwordUtils = new PasswordUtils();
+//        boolean isRight = passwordUtils.login(usernameField.getText(), passwordField.getPassword());
+//        if(isRight) {
+
+//        } else {
+
+//        }
+    }
+    private void Access(final String username,final String password) throws FileNotFoundException, IOException{
+        //String field = "" ;
+        if(status_db){
+            
+        
+        for(int i = 0;i<dataguru.size();i++){
+            if(!username.contains("@")){
+                if(dataguru.get(i).getUsername().equals(username)){
+                    UserModel user = dataguru.get(i);
+                    if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)){
+                        HomeForm homeForm = new HomeForm();
+                        LoginForm login = new LoginForm();
+                        homeForm.setVisible(true);
+                        login.dispose();                    
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Password salah");                    
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
+                }
+                
+                
+            }else{
+                
+            }
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Tolong Tunggu Database Masih Di Proses");
+        }
+        
+                
     }
 
     final public void setLocation() {
