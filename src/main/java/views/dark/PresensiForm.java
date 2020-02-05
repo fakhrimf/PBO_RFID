@@ -5,9 +5,18 @@
  */
 package views.dark;
 
+import utils.FirebaseConnection;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import models.PresensiModel;
+import models.SiswaModel;
 import views.dark.format.presensiTemplate;
 
 public class PresensiForm extends javax.swing.JFrame {
@@ -16,6 +25,7 @@ public class PresensiForm extends javax.swing.JFrame {
         initComponents();
         setLocation();
         testing();
+        getData();
     }
 
     /**
@@ -126,7 +136,7 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addGroup(panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnHomeLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -168,7 +178,7 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addGroup(panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnPresensiLayout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -195,7 +205,7 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelBtnRekapanLayout.setVerticalGroup(
@@ -205,7 +215,7 @@ public class PresensiForm extends javax.swing.JFrame {
                 .addGroup(panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnRekapanLayout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -217,7 +227,7 @@ public class PresensiForm extends javax.swing.JFrame {
             .addGroup(panelMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelBtnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -341,11 +351,33 @@ public class PresensiForm extends javax.swing.JFrame {
         for(int i = 0; i<=5; i++)
         {
             defaultListModel.addElement(
-                    new PresensiModel("Cimon", "Absen", "Hadir", "10:53:21")
-            );            
+                new PresensiModel("John Doe", "Absen 3", "Hadir", "10:53:21")
+            );
         }
         jList1.setModel(defaultListModel);
         jList1.setCellRenderer(new presensiTemplate());
+    }
+    
+    public void getData()
+    {
+        DatabaseReference ref = null;
+        try{
+            ref = FirebaseConnection.getReference("RekapHarian");
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+       
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+                PresensiModel presensiModel = ds.getValue(PresensiModel.class);
+                System.out.println(presensiModel);
+            }
+            @Override
+            public void onCancelled(DatabaseError de) {
+                System.out.println("The read failed: " + de.getCode());
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
