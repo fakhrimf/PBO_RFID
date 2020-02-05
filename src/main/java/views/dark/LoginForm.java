@@ -4,6 +4,9 @@ import utils.PasswordUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static utils.Constants.LOGIN_ENTER_COLOR;
 import static utils.Constants.LOGIN_NORMAL_COLOR;
@@ -170,11 +173,19 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonLoginMouseExited
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
-        login();
+        try {
+            login();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        login();
+        try {
+            login();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
@@ -183,7 +194,7 @@ public class LoginForm extends javax.swing.JFrame {
     //</editor-fold>
 
     // <editor-fold defaultstate="expanded" desc="Functions">
-    private void login() {
+    private void login() throws IOException, IOException {
         PasswordUtils passwordUtils = new PasswordUtils();
         boolean isRight = passwordUtils.login(usernameField.getText(), passwordField.getPassword());
         if(isRight) {

@@ -1,5 +1,17 @@
 package utils;
 
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
@@ -12,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Base64;
+import models.UserModel;
 
 import static utils.Constants.*;
 
@@ -21,28 +34,72 @@ import static utils.Constants.*;
 public class PasswordUtils {
     private static SecretKeySpec secretKey;
     Connection con;
+    private String DB_Parent = "Guru";
+    private String DB_Username = "username";
+    private String DB_Password = "password";
+    FirebaseConnection konek;
 
-    public boolean login(String username, char[] password) {
-        con = SQLiteConnection.connect(DB_NAME);
+    public boolean login(String username, char[] password) throws FileNotFoundException, IOException {
+   //     con = SQLiteConnection.connect(DB_NAME);
         final String secretKey = PASSWORD_KEY;
         String originalPass = String.valueOf(password);
         String encryptedString = PasswordUtils.encrypt(originalPass, secretKey);
         boolean isRight = false;
+       
+        FileInputStream serviceAccount =
+          new FileInputStream("src\\main\\db\\kumascanner-firebase-adminsdk-m3epa-2ab5b27c8f.json");
 
-        Statement stmt;
-        try {
-            stmt = con.createStatement();
-            String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
-                    + "'";
-            ResultSet rs = stmt.executeQuery(query);
-            if(rs.next() && encryptedString != null) {
-                isRight = username.equals(rs.getString(USERNAME_DB_FIELD)) && encryptedString.equals(rs.getString(PASSWORD_DB_FIELD));
+        FirebaseOptions options = new FirebaseOptions.Builder()
+          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+          .setDatabaseUrl("https://kumascanner.firebaseio.com")
+          .build();
+
+        FirebaseApp.initializeApp(options);
+        
+        final DatabaseReference rootRef = FirebaseDatabase.getInstance()
+            .getReference("restricted_access/secret_document");
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+          
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+          
+            Object document = dataSnapshot.getValue();
+            System.out.println(document);
+            
+            if(dataSnapshot.child(DB_Parent).child(username).exists()){
+    
+                UserModel users = dataSnapshot.child(DB_Parent).child(username).getValue(UserModel.class);
+                
+                if(users.getUsername().equals(username) && users.getPassword().equals(originalPass)){
+                    final boolean isRight = true;
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+          }
+
+          @Override
+          public void onCancelled(DatabaseError error) {
+          }
+
+        });
+    
+//        Statement stmt;
+//        try {
+//            stmt = con.createStatement();
+//            String query = "SELECT * FROM t_user WHERE username='" + username + "' AND password='" + encryptedString
+//                    + "'";
+//            ResultSet rs = stmt.executeQuery(query);
+//            if(rs.next() && encryptedString != null) {
+//                isRight = username.equals(rs.getString(USERNAME_DB_FIELD)) && encryptedString.equals(rs.getString(PASSWORD_DB_FIELD));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return isRight;
         return isRight;
     }
+    
+    
+       
 
     public static void setKey(String myKey) {
         MessageDigest sha = null;
