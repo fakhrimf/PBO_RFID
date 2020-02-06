@@ -348,10 +348,10 @@ public class PresensiForm extends javax.swing.JFrame {
     public void testing()
     {
         DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
-        for(int i = 0; i<=5; i++)
+        for(int i = 0; i<=9; i++)
         {
             defaultListModel.addElement(
-                new PresensiModel("John Doe", "Absen 3", "Hadir", "10:53:21")
+                new PresensiModel("John Doe"+i, "Absen 3", "Hadir", "10:53:21")
             );
         }
         jList1.setModel(defaultListModel);
@@ -362,7 +362,7 @@ public class PresensiForm extends javax.swing.JFrame {
     {
         DatabaseReference ref = null;
         try{
-            ref = FirebaseConnection.getReference("RekapHarian");
+            ref = FirebaseConnection.getRef("RekapHarian");
         }catch(IOException ex){
             System.out.println(ex);
         }

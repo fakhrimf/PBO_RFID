@@ -50,10 +50,15 @@ public class LoginForm extends javax.swing.JFrame {
                 UserModel guru = kumass.getValue(UserModel.class);
                 dataguru.add(guru);
             }
+            //Jika Array Di Balik isinya
+//            for(int i = dataguru.size();i>=0;i--){
+//                arraybaru.add(dataguru.get(i));
+//            }
             status_db=true;
             System.out.print("Database Selesai Di Inisiasi");
-            
           }
+          
+          
 
           @Override
           public void onCancelled(DatabaseError error) {
@@ -65,11 +70,19 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         try{
-            db = FirebaseConnection.getReference(DB_Parent);
+            //Fungsi initapp hanya boleh di login doang
+            FirebaseConnection.initApp();
+            db = FirebaseConnection.getRef(DB_Parent);
         }catch(IOException ex){
             System.out.println(ex);
         }
         initdb();
+//        Untuk Split Tanggal
+//        String test = "20-04-2003";
+//        String[] array = test.split("-");
+//System.out.println(array[0]); //Hasilnya 20
+//System.out.println(array[1]); //Hasilnya 04
+//        System.out.println(array[2]); //Hasilnya 2003
         setLocation();
         
         // Membuat panel header transparan
@@ -259,51 +272,42 @@ public class LoginForm extends javax.swing.JFrame {
         if(username.equalsIgnoreCase("") || password.equalsIgnoreCase("")){
             JOptionPane.showMessageDialog(null, "Username atau Password kosong");
         }else {
-//            HomeForm homeForm = new HomeForm();
-//                LoginForm login = new LoginForm();
-//                homeForm.setVisible(true);
-//                login.dispose();
             Access(username,originalPass);
-//            JOptionPane.showMessageDialog(null, "Username atau Password salah");
         }
 
-        
-//        PasswordUtils passwordUtils = new PasswordUtils();
-//        boolean isRight = passwordUtils.login(usernameField.getText(), passwordField.getPassword());
-//        if(isRight) {
-
-//        } else {
-
-//        }
     }
     private void Access(final String username,final String password) throws FileNotFoundException, IOException{
         //String field = "" ;
         if(status_db){
             
-        
+        boolean status_guru =false;
         for(int i = 0;i<dataguru.size();i++){
-            if(!username.contains("@")){
+            if(username.contains("@")){
                 if(dataguru.get(i).getUsername().equals(username)){
                     UserModel user = dataguru.get(i);
                     if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)){
                         HomeForm homeForm = new HomeForm();
-                        LoginForm login = new LoginForm();
                         homeForm.setVisible(true);
-                        login.dispose();                    
+                        this.dispose();                    
                     }else{
                         JOptionPane.showMessageDialog(null, "Password salah");                    
                     }
+                    status_guru = true;
+                    break;
                 }else{
-                    JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
+//                    JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
+                        status_guru = false;
                 }
-                
-                
             }else{
                 
             }
         }
+        if(!status_guru){
+            JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
+        }
         }else{
-            JOptionPane.showMessageDialog(null, "Tolong Tunggu Database Masih Di Proses");
+            JOptionPane.showMessageDialog(null, "Cek Internet(Tunggu 5 Detik)");
+            initdb();
         }
         
                 
