@@ -36,18 +36,6 @@ public class FirebaseConnection {
         FirebaseApp.initializeApp(options);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(field);
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-            Object document = dataSnapshot.getValue();
-            System.out.println(document);
-          }
-
-          @Override
-          public void onCancelled(DatabaseError error) {
-          }
-        });
  
         return ref;
     }

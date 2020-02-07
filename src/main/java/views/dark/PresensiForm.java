@@ -12,9 +12,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.awt.Color;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import models.PresensiModel;
 import models.SiswaModel;
 import views.dark.format.presensiTemplate;
@@ -24,8 +31,10 @@ public class PresensiForm extends javax.swing.JFrame {
     public PresensiForm() {
         initComponents();
         setLocation();
-        testing();
-        getData();
+        showData();
+        Border border = BorderFactory.createEmptyBorder();
+        jList1.setBorder(new LineBorder(Color.black));
+        jList1.setOpaque(true);
     }
 
     /**
@@ -257,13 +266,16 @@ public class PresensiForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(54, 57, 63));
 
+        jList1.setBackground(new java.awt.Color(51, 51, 51));
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,10 +340,6 @@ public class PresensiForm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_panelBtnRekapanMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    
     final public void setLocation() {
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -345,33 +353,46 @@ public class PresensiForm extends javax.swing.JFrame {
         });
     }
     
-    public void testing()
-    {
-        DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
-        for(int i = 0; i<=5; i++)
-        {
-            defaultListModel.addElement(
-                new PresensiModel("John Doe", "Absen 3", "Hadir", "10:53:21")
-            );
-        }
-        jList1.setModel(defaultListModel);
-        jList1.setCellRenderer(new presensiTemplate());
-    }
-    
-    public void getData()
+    public void showData()
     {
         DatabaseReference ref = null;
+     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date date = new Date();
+        System.out.println(dateFormat.format(date));
         try{
-            ref = FirebaseConnection.getReference("RekapHarian");
+            ref = FirebaseConnection.getReference("Guru");
         }catch(IOException ex){
             System.out.println(ex);
         }
-       
         ref.addValueEventListener(new ValueEventListener(){
             @Override
-            public void onDataChange(DataSnapshot ds) {
-                PresensiModel presensiModel = ds.getValue(PresensiModel.class);
-                System.out.println(presensiModel);
+            public void onDataChange(DataSnapshot dGuru) {
+                DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
+                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+                {
+                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    String name = guruSnapshot.child("name").getValue(String.class);
+                    System.out.println("NAME : " + name);
+                    System.out.println("GURU : " + guruSnapshot);
+                    
+                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
+                    dbRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dPresensi) {
+                            PresensiModel presensiModel = dPresensi.getValue(PresensiModel.class);
+                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+                            String uid = dPresensi.child("id").getValue(String.class);
+                            defaultListModel.addElement(new PresensiModel(w_masuk,"Hadir",uid,name));
+                            jList1.setModel(defaultListModel);
+                            jList1.setCellRenderer(new presensiTemplate());
+                            System.out.println("PRESENSI : " + dPresensi);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError de) {
+                           System.out.println("The read failed: " + de.getCode());
+                        }
+                    });
+                }        
             }
             @Override
             public void onCancelled(DatabaseError de) {
@@ -379,7 +400,6 @@ public class PresensiForm extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
