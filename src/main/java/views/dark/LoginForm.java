@@ -307,7 +307,7 @@ public class LoginForm extends javax.swing.JFrame {
         }
         }else{
             JOptionPane.showMessageDialog(null, "Cek Internet(Tunggu 5 Detik)");
-            initdb();
+         //   initdb();
         }
         
                 
