@@ -438,9 +438,10 @@ public class DataForm extends javax.swing.JFrame {
 //                    System.out.println("NAME : " + name);
 //                    System.out.println("GURU : " + guruSnapshot);
                     //        Untuk Split Tanggal
-                String tgl = "20-04-2003";
+                String tgl = "2001-04-2020";
                 String[] array = tgl.split("-");
-                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02"+array[2]);
+                
+                    DatabaseReference dbRef2 = (DatabaseReference) FirebaseDatabase.getInstance().getReference("RekapHarian").startAt("01-01"+array[2]).endAt("31-12"+array[2]);
                     dbRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dPresensi) {
