@@ -5,7 +5,20 @@
  */
 package views.dark;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
+import models.PresensiModel;
+import models.RekapanModel;
+import utils.FirebaseConnection;
+import views.dark.format.presensiTemplate;
 
 /**
  *
@@ -402,7 +415,49 @@ public class DataForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new DataForm().setVisible(true));
     }
-
+    public static void filtertahun(){
+        DatabaseReference ref = null;
+     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        
+        try{
+            ref = FirebaseConnection.getRef("Guru");
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dGuru) {
+                DefaultListModel<RekapanModel> defaultListModel = new DefaultListModel<>();
+                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+                {
+//                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+//                    String name = guruSnapshot.child("name").getValue(String.class);
+//                    System.out.println("NAME : " + name);
+//                    System.out.println("GURU : " + guruSnapshot);
+                    //        Untuk Split Tanggal
+                String tgl = "20-04-2003";
+                String[] array = tgl.split("-");
+                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02"+array[2]);
+                    dbRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dPresensi) {
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError de) {
+                           System.out.println("The read failed: " + de.getCode());
+                        }
+                    });
+                }        
+            }
+            @Override
+            public void onCancelled(DatabaseError de) {
+                System.out.println("The read failed: " + de.getCode());
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
