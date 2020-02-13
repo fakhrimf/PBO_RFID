@@ -16,18 +16,25 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import models.PresensiModel;
 import models.SiswaModel;
 import views.dark.format.presensiTemplate;
 
 public class PresensiForm extends javax.swing.JFrame {
 
+    ArrayList<String> uid_list, nama_list, waktu_list;
+    
     public PresensiForm() {
         initComponents();
         setLocation();
@@ -35,6 +42,8 @@ public class PresensiForm extends javax.swing.JFrame {
         Border border = BorderFactory.createEmptyBorder();
         jList1.setBorder(new LineBorder(Color.black));
         jList1.setOpaque(true);
+        jTable1.setSize(0, 0);
+        jTable1.setOpaque(false);
     }
 
     /**
@@ -65,6 +74,8 @@ public class PresensiForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -269,17 +280,42 @@ public class PresensiForm extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(51, 51, 51));
         jScrollPane1.setViewportView(jList1);
 
+        jScrollPane2.setEnabled(false);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setFocusable(false);
+        jTable1.setMaximumSize(new java.awt.Dimension(0, 0));
+        jTable1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jTable1.setOpaque(false);
+        jScrollPane2.setViewportView(jTable1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -370,6 +406,10 @@ public class PresensiForm extends javax.swing.JFrame {
                 DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
                 for (DataSnapshot guruSnapshot : dGuru.getChildren())
                 {
+                    nama_list = new ArrayList<String>();
+                    waktu_list = new ArrayList<String>();
+                    uid_list = new ArrayList<String>();
+                    
                     String uid = guruSnapshot.child("rfid_key").getValue(String.class);
                     String name = guruSnapshot.child("name").getValue(String.class);
                     System.out.println("NAME : " + name);
@@ -378,14 +418,20 @@ public class PresensiForm extends javax.swing.JFrame {
                     DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
                     dbRef2.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
+                        public void onDataChange(DataSnapshot dPresensi) {   
+                            nama_list.add(name);
+                            
                             PresensiModel presensiModel = dPresensi.getValue(PresensiModel.class);
                             String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+                            waktu_list.add(w_masuk);
+
                             String uid = dPresensi.child("id").getValue(String.class);
+                            uid_list.add(uid);
+                            
                             defaultListModel.addElement(new PresensiModel(w_masuk,"Hadir",uid,name));
                             jList1.setModel(defaultListModel);
                             jList1.setCellRenderer(new presensiTemplate());
-                            System.out.println("PRESENSI : " + dPresensi);
+                            getToTable(uid_list, nama_list, waktu_list);
                         }
                         @Override
                         public void onCancelled(DatabaseError de) {
@@ -400,6 +446,20 @@ public class PresensiForm extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void getToTable(ArrayList<String> uid, ArrayList<String> name, ArrayList<String> waktu)
+    {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Id Guru");
+        model.addColumn("Nama Guru");
+        model.addColumn("Waktu Masuk");
+        for(int i = 0; i<uid.size(); i++)
+        {
+            model.addRow(new Object[] { uid.get(i),name.get(i),waktu.get(i)});
+        }
+        jTable1.setModel(model);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -413,6 +473,8 @@ public class PresensiForm extends javax.swing.JFrame {
     private javax.swing.JList<PresensiModel> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelBtnHome;
     private javax.swing.JPanel panelBtnPresensi;
     private javax.swing.JPanel panelBtnRekapan;
