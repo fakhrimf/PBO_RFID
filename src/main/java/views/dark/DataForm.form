@@ -81,11 +81,6 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="25" green="22" red="20" type="rgb"/>
             </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                <BevelBorder/>
-              </Border>
-            </Property>
           </Properties>
 
           <Layout>
@@ -116,7 +111,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="633" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="637" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -147,7 +142,7 @@
                                   <Component id="radioSakit" alignment="0" max="32767" attributes="0"/>
                                   <Component id="radioTanpaKeterangan" alignment="0" max="32767" attributes="0"/>
                                   <Component id="CmbTahun" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jComboBox2" max="32767" attributes="0"/>
+                                  <Component id="cmbSemester" max="32767" attributes="0"/>
                                   <Component id="jComboBox3" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -174,7 +169,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jComboBox3" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jComboBox2" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Component id="cmbSemester" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="CmbTahun" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -269,30 +264,26 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cmbBulan">
               <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="2f" green="2b" red="29" type="rgb"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="67" green="67" red="67" type="rgb"/>
-                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="13">
+                  <StringArray count="12">
                     <StringItem index="0" value="[ Pilih Bulan ]"/>
-                    <StringItem index="1" value="Januari"/>
-                    <StringItem index="2" value="Februari"/>
-                    <StringItem index="3" value="Maret"/>
-                    <StringItem index="4" value="April"/>
-                    <StringItem index="5" value="Mei"/>
-                    <StringItem index="6" value="Juni"/>
-                    <StringItem index="7" value="Juli"/>
-                    <StringItem index="8" value="Agustus"/>
-                    <StringItem index="9" value="September"/>
-                    <StringItem index="10" value="October"/>
-                    <StringItem index="11" value="November"/>
-                    <StringItem index="12" value="Desember"/>
+                    <StringItem index="1" value="01"/>
+                    <StringItem index="2" value="02"/>
+                    <StringItem index="3" value="03"/>
+                    <StringItem index="4" value="04"/>
+                    <StringItem index="5" value="05"/>
+                    <StringItem index="6" value="06"/>
+                    <StringItem index="7" value="07"/>
+                    <StringItem index="8" value="08"/>
+                    <StringItem index="9" value="09"/>
+                    <StringItem index="10" value="10"/>
+                    <StringItem index="11" value="12"/>
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbBulanActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -343,16 +334,19 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
+            <Component class="javax.swing.JComboBox" name="cmbSemester">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
                     <StringItem index="0" value="[ Pilih Semseter ]"/>
-                    <StringItem index="1" value="Semester 1"/>
-                    <StringItem index="2" value="Semester 2"/>
+                    <StringItem index="1" value="1"/>
+                    <StringItem index="2" value="2"/>
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbSemesterActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
