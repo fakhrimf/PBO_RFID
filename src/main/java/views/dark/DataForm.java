@@ -33,6 +33,8 @@ public class DataForm extends javax.swing.JFrame {
     public DataForm() {
         initComponents();
         setLocation();
+
+
 //        showDataForm();
     }
 
@@ -52,7 +54,7 @@ public class DataForm extends javax.swing.JFrame {
         labelKehadiran3 = new javax.swing.JLabel();
         cmbBulan = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CmbTahun = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
@@ -147,10 +149,10 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        CmbTahun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
+        CmbTahun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                CmbTahunActionPerformed(evt);
             }
         });
 
@@ -171,13 +173,12 @@ public class DataForm extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbBulan, 0, 225, Short.MAX_VALUE)
-                            .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(labelKehadiran3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(radioIzin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(labelKehadiran2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(radioSakit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelKehadiran3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(radioIzin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelKehadiran2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(radioSakit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CmbTahun, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(107, Short.MAX_VALUE))
@@ -202,7 +203,7 @@ public class DataForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CmbTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmbBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -331,9 +332,13 @@ public class DataForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_radioTanpaKeteranganActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void CmbTahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbTahunActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        String thn = CmbTahun.getSelectedItem().toString();
+        String awal = thn +"-01-01";
+        String akhir = thn +"-12-31";
+        filter(awal ,akhir);
+    }//GEN-LAST:event_CmbTahunActionPerformed
 //test
     /**
      * @param args the command line arguments
@@ -365,11 +370,87 @@ public class DataForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new DataForm().setVisible(true));
     }
+        public void filter(String awal,String akhir){
+        DatabaseReference ref = null;
+     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        
+        try{
+            ref = FirebaseConnection.getRef("Guru");
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
+        DefaultTableModel dtm;
+        dtm = new DefaultTableModel(null,kolom);
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dGuru) {
+                
+                String tahun ="2020";
+                for (DataSnapshot guruSnapshot : dGuru.getChildren()){
+
+                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    String name = guruSnapshot.child("name").getValue(String.class);
+                
+                    
+                    System.out.println("NAME : " + name);
+                    System.out.println("GURU : " + guruSnapshot);
+                    //        Untuk Split Tanggal
+                    
+                    String tanggal = "12-12-2020";
+                    String[] array = tanggal.split("-");
+//                startAt("01-01"+array[2]).endAt("31-12"+array[2])
+//                child("06-02-"+array[2])
+                    DatabaseReference dbRef2 = null;
+                    try{
+                        dbRef2 = FirebaseConnection.getRef("RekapHarianBaru");
+                    }catch(IOException ex){
+                        System.out.println(ex);
+                    }
+                    
+                    System.out.println("ini yang muncul:"+dbRef2);
+                    // Untuk Kehadiran Harus ada Waktu Keluar
+                    // contoh kalo yang dibawah ss.child(uid).child("waktu_masuk").getValue(String.class);
+                    // Kalo Gk ada  Di anggap gk hadir DI Rekapan
+                    dbRef2.orderByKey().startAt(awal).endAt(akhir).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dPresensi) {
+                            for(DataSnapshot ss : dPresensi.getChildren() ){
+                                RekapanModel pm = ss.getValue(RekapanModel.class);
+                                String w_masuk = ss.child(uid).child("waktu_masuk").getValue(String.class);
+                                String tanggal = ss.child(uid).child("tanggal").getValue(String.class);
+                                if(ss.child(uid).child("tanggal").getValue(String.class) != null){
+                                    dtm.addRow(new String[]{uid,name,w_masuk,"Hadir",tanggal});
+                                }else{
+//                                    dtm.addRow(new String[]{"Dia","Tidak","Hadir",uid,name});
+                                }
+                                System.out.println("Rekapan Tahun: " + dPresensi);
+                            }
+      
+                        }
+                        
+                        @Override
+                        public void onCancelled(DatabaseError de) {
+                           System.out.println("The read failed: " + de.getCode());
+                        }
+                    });
+                   
+                }        
+            }
+            @Override
+            public void onCancelled(DatabaseError de) {
+                System.out.println("The read failed: " + de.getCode());
+            }
+        });
+         jTable1.setModel(dtm);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CmbTahun;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cmbBulan;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel5;
