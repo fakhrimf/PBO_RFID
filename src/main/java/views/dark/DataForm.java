@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import models.PresensiModel;
 import models.RekapanModel;
 import utils.FirebaseConnection;
@@ -32,27 +33,28 @@ public class DataForm extends javax.swing.JFrame {
     public DataForm() {
         initComponents();
         setLocation();
+        showDataForm();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         panelMain = new javax.swing.JPanel();
         panelHeader = new javax.swing.JPanel();
         panelSidebar = new javax.swing.JPanel();
         panelMenu = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        panelBtnHome = new javax.swing.JPanel();
+        labelKehadiran2 = new javax.swing.JLabel();
+        radioIzin = new javax.swing.JRadioButton();
+        radioSakit = new javax.swing.JRadioButton();
+        radioTanpaKeterangan = new javax.swing.JRadioButton();
+        labelKehadiran3 = new javax.swing.JLabel();
+        cmbBulan = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        panelBtnPresensi = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        panelBtnRekapan = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         panelAbsen = new javax.swing.JPanel();
         labelKehadiran = new javax.swing.JLabel();
@@ -88,172 +90,121 @@ public class DataForm extends javax.swing.JFrame {
         );
         panelSidebarLayout.setVerticalGroup(
             panelSidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
         );
 
         panelMenu.setBackground(new java.awt.Color(41, 43, 47));
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Ellipse 6.png"))); // NOI18N
+        labelKehadiran2.setFont(new java.awt.Font("Poppins", 0, 28)); // NOI18N
+        labelKehadiran2.setForeground(new java.awt.Color(103, 103, 103));
+        labelKehadiran2.setText("Filter Status");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 34)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("John Doe");
-
-        jLabel4.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("PBO");
-
-        panelBtnHome.setBackground(new java.awt.Color(41, 43, 47));
-        panelBtnHome.setPreferredSize(new java.awt.Dimension(347, 72));
-        panelBtnHome.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBtnHomeMouseClicked(evt);
+        radioIzin.setBackground(new java.awt.Color(41, 43, 47));
+        buttonGroup2.add(radioIzin);
+        radioIzin.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        radioIzin.setForeground(new java.awt.Color(103, 103, 103));
+        radioIzin.setText("Izin");
+        radioIzin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioIzinActionPerformed(evt);
             }
         });
+
+        radioSakit.setBackground(new java.awt.Color(41, 43, 47));
+        buttonGroup2.add(radioSakit);
+        radioSakit.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        radioSakit.setForeground(new java.awt.Color(103, 103, 103));
+        radioSakit.setText("Sakit");
+        radioSakit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioSakitActionPerformed(evt);
+            }
+        });
+
+        radioTanpaKeterangan.setBackground(new java.awt.Color(41, 43, 47));
+        buttonGroup2.add(radioTanpaKeterangan);
+        radioTanpaKeterangan.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        radioTanpaKeterangan.setForeground(new java.awt.Color(103, 103, 103));
+        radioTanpaKeterangan.setText("Tanpa Keterangan");
+        radioTanpaKeterangan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioTanpaKeteranganActionPerformed(evt);
+            }
+        });
+
+        labelKehadiran3.setFont(new java.awt.Font("Poppins", 0, 28)); // NOI18N
+        labelKehadiran3.setForeground(new java.awt.Color(103, 103, 103));
+        labelKehadiran3.setText("Filter Status");
+
+        cmbBulan.setBackground(new java.awt.Color(41, 43, 47));
+        cmbBulan.setForeground(new java.awt.Color(103, 103, 103));
+        cmbBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Bulan ]", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "October", "November", "Desember" }));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Vector_1.png"))); // NOI18N
-
-        jLabel8.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel8.setText("Home");
-
-        javax.swing.GroupLayout panelBtnHomeLayout = new javax.swing.GroupLayout(panelBtnHome);
-        panelBtnHome.setLayout(panelBtnHomeLayout);
-        panelBtnHomeLayout.setHorizontalGroup(
-            panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnHomeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelBtnHomeLayout.setVerticalGroup(
-            panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnHomeLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBtnHomeLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        panelBtnPresensi.setBackground(new java.awt.Color(41, 43, 47));
-        panelBtnPresensi.setPreferredSize(new java.awt.Dimension(347, 72));
-        panelBtnPresensi.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBtnPresensiMouseClicked(evt);
+                jLabel5MouseClicked(evt);
             }
         });
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/bx_bx-line-chart.png"))); // NOI18N
-
-        jLabel9.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel9.setText("Presensi");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelBtnPresensiLayout = new javax.swing.GroupLayout(panelBtnPresensi);
-        panelBtnPresensi.setLayout(panelBtnPresensiLayout);
-        panelBtnPresensiLayout.setHorizontalGroup(
-            panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnPresensiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelBtnPresensiLayout.setVerticalGroup(
-            panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnPresensiLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBtnPresensiLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Semseter ]", "Semester 1", "Semester 2" }));
 
-        panelBtnRekapan.setBackground(new java.awt.Color(47, 51, 58));
-        panelBtnRekapan.setPreferredSize(new java.awt.Dimension(347, 72));
-        panelBtnRekapan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBtnRekapanMouseClicked(evt);
-            }
-        });
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Vector (1)_1.png"))); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(142, 146, 151));
-        jLabel10.setText(" Rekapan");
-
-        javax.swing.GroupLayout panelBtnRekapanLayout = new javax.swing.GroupLayout(panelBtnRekapan);
-        panelBtnRekapan.setLayout(panelBtnRekapanLayout);
-        panelBtnRekapanLayout.setHorizontalGroup(
-            panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnRekapanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelBtnRekapanLayout.setVerticalGroup(
-            panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBtnRekapanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelBtnRekapanLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(0, 6, Short.MAX_VALUE))
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Pertriwulan ]", "Jan-Feb-Mar", "Apr-May-Jun", "Jul-Aug-Sep", "Oct-Nov-Dec" }));
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMenuLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelBtnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelBtnPresensi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMenuLayout.createSequentialGroup()
-                        .addComponent(panelBtnRekapan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbBulan, 0, 225, Short.MAX_VALUE)
+                            .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(labelKehadiran3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radioIzin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(labelKehadiran2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radioSakit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(60, 60, 60)
-                .addComponent(panelBtnHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelBtnPresensi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelKehadiran2)
+                .addGap(18, 18, 18)
+                .addComponent(radioIzin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(radioSakit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(labelKehadiran3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelBtnRekapan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cmbBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -311,7 +262,7 @@ public class DataForm extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelAbsen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE))
                 .addGap(15, 15, 15))
         );
         jPanel1Layout.setVerticalGroup(
@@ -320,7 +271,7 @@ public class DataForm extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(20, 20, 20))
         );
 
@@ -362,28 +313,27 @@ public class DataForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void panelBtnHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnHomeMouseClicked
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
         new HomeForm().setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_panelBtnHomeMouseClicked
+    }//GEN-LAST:event_jLabel5MouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void radioIzinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioIzinActionPerformed
         // TODO add your handling code here:
-        new PresensiForm().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_radioIzinActionPerformed
 
-    private void panelBtnPresensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnPresensiMouseClicked
+    private void radioSakitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSakitActionPerformed
         // TODO add your handling code here:
-        new PresensiForm().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_panelBtnPresensiMouseClicked
+    }//GEN-LAST:event_radioSakitActionPerformed
 
-    private void panelBtnRekapanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnRekapanMouseClicked
+    private void radioTanpaKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioTanpaKeteranganActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_radioTanpaKeteranganActionPerformed
 
-    }//GEN-LAST:event_panelBtnRekapanMouseClicked
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -459,28 +409,144 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
     }
+    DatabaseReference query = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020");
+    public void showDataForm()
+    {
+        DatabaseReference ref = null;
+     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        try{
+            ref = FirebaseConnection.getRef("Guru");
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dGuru) {
+                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
+                DefaultTableModel dtm;
+                dtm = new DefaultTableModel(null,kolom);
+                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+                {
+                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    String name = guruSnapshot.child("name").getValue(String.class);
+                    System.out.println("NAME : " + name);
+                    System.out.println("GURU : " + guruSnapshot);
+                    
+                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
+                    dbRef2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dPresensi) {
+
+                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+                            String uid = dPresensi.child("id").getValue(String.class);
+                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
+                            jTable1.setModel(dtm);
+                            System.out.println("PRESENSI : "+dPresensi);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError de) {
+                           System.out.println("The read failed: " + de.getCode());
+                        }
+                    });
+                }        
+            }
+            @Override
+            public void onCancelled(DatabaseError de) {
+                System.out.println("The read failed: " + de.getCode());
+            }
+        });
+    }
+    public void showDataPerbulan()
+    {
+        DatabaseReference ref = null;
+     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        try{
+            ref = FirebaseConnection.getRef("Guru");
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
+        ref.addValueEventListener(new ValueEventListener(){
+            @Override
+            public void onDataChange(DataSnapshot dGuru) {
+                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
+                String bulan = "" + cmbBulan;
+                DefaultTableModel dtm;
+                dtm = new DefaultTableModel(null,kolom);
+                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+                {
+                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    String name = guruSnapshot.child("name").getValue(String.class);
+                    System.out.println("NAME : " + name);
+                    System.out.println("GURU : " + guruSnapshot);
+                    
+                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian");
+//                    dbRef2.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dPresensi) {
+//
+//                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+//                            String uid = dPresensi.child("id").getValue(String.class);
+//                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
+//                            jTable1.setModel(dtm);
+//                            System.out.println("PRESENSI : "+dPresensi);
+//                        }
+//                        @Override
+//                        public void onCancelled(DatabaseError de) {
+//                           System.out.println("The read failed: " + de.getCode());
+//                        }
+//                    });
+                    if (bulan.equalsIgnoreCase("[ Pilih Bulan ]")) {
+                        dbRef2.startAt("").addValueEventListener(new ValueEventListener() {
+                         @Override
+                        public void onDataChange(DataSnapshot dPresensi) {
+
+                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+                            String uid = dPresensi.child("id").getValue(String.class);
+                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
+                            jTable1.setModel(dtm);
+                            System.out.println("PRESENSI : "+dPresensi);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError de) {
+                           System.out.println("The read failed: " + de.getCode());
+                        }
+                      });
+                    }
+                   
+                }        
+            }
+            @Override
+            public void onCancelled(DatabaseError de) {
+                System.out.println("The read failed: " + de.getCode());
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox<String> cmbBulan;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelKehadiran;
     private javax.swing.JLabel labelKehadiran1;
+    private javax.swing.JLabel labelKehadiran2;
+    private javax.swing.JLabel labelKehadiran3;
     private javax.swing.JPanel panelAbsen;
-    private javax.swing.JPanel panelBtnHome;
-    private javax.swing.JPanel panelBtnPresensi;
-    private javax.swing.JPanel panelBtnRekapan;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JPanel panelSidebar;
+    private javax.swing.JRadioButton radioIzin;
+    private javax.swing.JRadioButton radioSakit;
+    private javax.swing.JRadioButton radioTanpaKeterangan;
     // End of variables declaration//GEN-END:variables
 }
