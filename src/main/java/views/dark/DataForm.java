@@ -33,7 +33,7 @@ public class DataForm extends javax.swing.JFrame {
     public DataForm() {
         initComponents();
         setLocation();
-        showDataForm();
+//        showDataForm();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -410,80 +410,31 @@ public class DataForm extends javax.swing.JFrame {
         });
     }
     DatabaseReference query = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020");
-    public void showDataForm()
-    {
-        DatabaseReference ref = null;
-     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date date = new Date();
-        System.out.println(dateFormat.format(date));
-        try{
-            ref = FirebaseConnection.getRef("Guru");
-        }catch(IOException ex){
-            System.out.println(ex);
-        }
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dGuru) {
-                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
-                DefaultTableModel dtm;
-                dtm = new DefaultTableModel(null,kolom);
-                for (DataSnapshot guruSnapshot : dGuru.getChildren())
-                {
-                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
-                    String name = guruSnapshot.child("name").getValue(String.class);
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
-                    
-                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
-                    dbRef2.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
-
-                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
-                            String uid = dPresensi.child("id").getValue(String.class);
-                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
-                            jTable1.setModel(dtm);
-                            System.out.println("PRESENSI : "+dPresensi);
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError de) {
-                           System.out.println("The read failed: " + de.getCode());
-                        }
-                    });
-                }        
-            }
-            @Override
-            public void onCancelled(DatabaseError de) {
-                System.out.println("The read failed: " + de.getCode());
-            }
-        });
-    }
-    public void showDataPerbulan()
-    {
-        DatabaseReference ref = null;
-     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date date = new Date();
-        System.out.println(dateFormat.format(date));
-        try{
-            ref = FirebaseConnection.getRef("Guru");
-        }catch(IOException ex){
-            System.out.println(ex);
-        }
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dGuru) {
-                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
-                String bulan = "" + cmbBulan;
-                DefaultTableModel dtm;
-                dtm = new DefaultTableModel(null,kolom);
-                for (DataSnapshot guruSnapshot : dGuru.getChildren())
-                {
-                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
-                    String name = guruSnapshot.child("name").getValue(String.class);
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
-                    
-                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian");
+//    public void showDataForm()
+//    {
+//        DatabaseReference ref = null;
+//     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//	Date date = new Date();
+//        System.out.println(dateFormat.format(date));
+//        try{
+//            ref = FirebaseConnection.getRef("Guru");
+//        }catch(IOException ex){
+//            System.out.println(ex);
+//        }
+//        ref.addValueEventListener(new ValueEventListener(){
+//            @Override
+//            public void onDataChange(DataSnapshot dGuru) {
+//                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
+//                DefaultTableModel dtm;
+//                dtm = new DefaultTableModel(null,kolom);
+//                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+//                {
+//                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+//                    String name = guruSnapshot.child("name").getValue(String.class);
+//                    System.out.println("NAME : " + name);
+//                    System.out.println("GURU : " + guruSnapshot);
+//                    
+//                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
 //                    dbRef2.addValueEventListener(new ValueEventListener() {
 //                        @Override
 //                        public void onDataChange(DataSnapshot dPresensi) {
@@ -499,32 +450,81 @@ public class DataForm extends javax.swing.JFrame {
 //                           System.out.println("The read failed: " + de.getCode());
 //                        }
 //                    });
-                    if (bulan.equalsIgnoreCase("[ Pilih Bulan ]")) {
-                        dbRef2.startAt("").addValueEventListener(new ValueEventListener() {
-                         @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
-
-                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
-                            String uid = dPresensi.child("id").getValue(String.class);
-                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
-                            jTable1.setModel(dtm);
-                            System.out.println("PRESENSI : "+dPresensi);
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError de) {
-                           System.out.println("The read failed: " + de.getCode());
-                        }
-                      });
-                    }
-                   
-                }        
-            }
-            @Override
-            public void onCancelled(DatabaseError de) {
-                System.out.println("The read failed: " + de.getCode());
-            }
-        });
-    }
+//                }        
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError de) {
+//                System.out.println("The read failed: " + de.getCode());
+//            }
+//        });
+//    }
+//    public void showDataPerbulan()
+//    {
+//        DatabaseReference ref = null;
+//     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//	Date date = new Date();
+//        System.out.println(dateFormat.format(date));
+//        try{
+//            ref = FirebaseConnection.getRef("Guru");
+//        }catch(IOException ex){
+//            System.out.println(ex);
+//        }
+//        ref.addValueEventListener(new ValueEventListener(){
+//            @Override
+//            public void onDataChange(DataSnapshot dGuru) {
+//                String [] kolom = {"Waktu Masuk", "Status", "ID","Nama"};
+//                String bulan = "" + cmbBulan;
+//                DefaultTableModel dtm;
+//                dtm = new DefaultTableModel(null,kolom);
+//                for (DataSnapshot guruSnapshot : dGuru.getChildren())
+//                {
+//                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+//                    String name = guruSnapshot.child("name").getValue(String.class);
+//                    System.out.println("NAME : " + name);
+//                    System.out.println("GURU : " + guruSnapshot);
+//                    
+//                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian");
+////                    dbRef2.addValueEventListener(new ValueEventListener() {
+////                        @Override
+////                        public void onDataChange(DataSnapshot dPresensi) {
+////
+////                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+////                            String uid = dPresensi.child("id").getValue(String.class);
+////                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
+////                            jTable1.setModel(dtm);
+////                            System.out.println("PRESENSI : "+dPresensi);
+////                        }
+////                        @Override
+////                        public void onCancelled(DatabaseError de) {
+////                           System.out.println("The read failed: " + de.getCode());
+////                        }
+////                    });
+//                    if (bulan.equalsIgnoreCase("[ Pilih Bulan ]")) {
+//                        dbRef2.startAt("").addValueEventListener(new ValueEventListener() {
+//                         @Override
+//                        public void onDataChange(DataSnapshot dPresensi) {
+//
+//                            String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
+//                            String uid = dPresensi.child("id").getValue(String.class);
+//                            dtm.addRow(new String[]{w_masuk,"Hadir",uid,name});
+//                            jTable1.setModel(dtm);
+//                            System.out.println("PRESENSI : "+dPresensi);
+//                        }
+//                        @Override
+//                        public void onCancelled(DatabaseError de) {
+//                           System.out.println("The read failed: " + de.getCode());
+//                        }
+//                      });
+//                    }
+//                   
+//                }        
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError de) {
+//                System.out.println("The read failed: " + de.getCode());
+//            }
+//        });
+//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
