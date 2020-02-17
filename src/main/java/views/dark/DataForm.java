@@ -166,6 +166,11 @@ public class DataForm extends javax.swing.JFrame {
         });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Pertriwulan ]", "Jan-Feb-Mar", "Apr-May-Jun", "Jul-Aug-Sep", "Oct-Nov-Dec" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -358,16 +363,47 @@ public class DataForm extends javax.swing.JFrame {
     private void cmbSemesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSemesterActionPerformed
         // TODO add your handling code here:
         String semester = cmbSemester.getSelectedItem().toString();
+        
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String tahun_sekarang = sdf.format(dt);
+        
         if(semester == "1"){
-            String awal = "2020-01-01";
-            String akhir = "2020-06-31";
+            String awal = tahun_sekarang + "-01-01";
+            String akhir = tahun_sekarang + "-06-31";
             filterSemester(awal,akhir);
         }else if(semester == "2"){
-            String awal = "2020-07-01";
-            String akhir = "2020-12-31";
+            String awal = tahun_sekarang + "-07-01";
+            String akhir = tahun_sekarang + "-12-31";
             filterSemester(awal,akhir);
         }
     }//GEN-LAST:event_cmbSemesterActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        String triwulan = jComboBox3.getSelectedItem().toString();
+        
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        String tahun_sekarang = sdf.format(dt);
+        
+        if(triwulan.equalsIgnoreCase("jan-feb-mar")){
+            String awal = tahun_sekarang + "-01-01";
+            String akhir = tahun_sekarang + "-03-31";
+            filter(awal,akhir);
+        }else if(triwulan.equalsIgnoreCase("apr-may-jun")){
+            String awal = tahun_sekarang + "-04-01";
+            String akhir = tahun_sekarang + "-06-31";
+            filter(awal,akhir);
+        }else if(triwulan.equalsIgnoreCase("jul-aug-sep")){
+            String awal = tahun_sekarang + "-07-01";
+            String akhir = tahun_sekarang + "-09-31";
+            filter(awal,akhir);
+        }else if(triwulan.equalsIgnoreCase("oct-nov-des")){
+            String awal = tahun_sekarang + "-10-01";
+            String akhir = tahun_sekarang + "-12-31";
+            filter(awal,akhir);
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 //test
     /**
      * @param args the command line arguments
