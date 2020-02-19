@@ -10,14 +10,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import models.PresensiModel;
 import models.RekapanModel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utils.FirebaseConnection;
 import views.dark.format.presensiTemplate;
 
@@ -30,6 +38,9 @@ public class DataForm extends javax.swing.JFrame {
     /**
      * Creates new form Home+
      */
+    
+    DefaultTableModel dtm;
+    
     public DataForm() {
         initComponents();
         setLocation();
@@ -47,16 +58,13 @@ public class DataForm extends javax.swing.JFrame {
         panelHeader = new javax.swing.JPanel();
         panelSidebar = new javax.swing.JPanel();
         panelMenu = new javax.swing.JPanel();
-        labelKehadiran2 = new javax.swing.JLabel();
-        radioIzin = new javax.swing.JRadioButton();
-        radioSakit = new javax.swing.JRadioButton();
-        radioTanpaKeterangan = new javax.swing.JRadioButton();
         labelKehadiran3 = new javax.swing.JLabel();
         cmbBulan = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         CmbTahun = new javax.swing.JComboBox<>();
         cmbSemester = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         panelAbsen = new javax.swing.JPanel();
         labelKehadiran = new javax.swing.JLabel();
@@ -95,43 +103,6 @@ public class DataForm extends javax.swing.JFrame {
         );
 
         panelMenu.setBackground(new java.awt.Color(41, 43, 47));
-
-        labelKehadiran2.setFont(new java.awt.Font("Poppins", 0, 28)); // NOI18N
-        labelKehadiran2.setForeground(new java.awt.Color(103, 103, 103));
-        labelKehadiran2.setText("Filter Status");
-
-        radioIzin.setBackground(new java.awt.Color(41, 43, 47));
-        buttonGroup2.add(radioIzin);
-        radioIzin.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        radioIzin.setForeground(new java.awt.Color(103, 103, 103));
-        radioIzin.setText("Izin");
-        radioIzin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioIzinActionPerformed(evt);
-            }
-        });
-
-        radioSakit.setBackground(new java.awt.Color(41, 43, 47));
-        buttonGroup2.add(radioSakit);
-        radioSakit.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        radioSakit.setForeground(new java.awt.Color(103, 103, 103));
-        radioSakit.setText("Sakit");
-        radioSakit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioSakitActionPerformed(evt);
-            }
-        });
-
-        radioTanpaKeterangan.setBackground(new java.awt.Color(41, 43, 47));
-        buttonGroup2.add(radioTanpaKeterangan);
-        radioTanpaKeterangan.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        radioTanpaKeterangan.setForeground(new java.awt.Color(103, 103, 103));
-        radioTanpaKeterangan.setText("Tanpa Keterangan");
-        radioTanpaKeterangan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioTanpaKeteranganActionPerformed(evt);
-            }
-        });
 
         labelKehadiran3.setFont(new java.awt.Font("Poppins", 0, 28)); // NOI18N
         labelKehadiran3.setForeground(new java.awt.Color(103, 103, 103));
@@ -172,6 +143,13 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Ekspor ke Excel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
@@ -186,13 +164,12 @@ public class DataForm extends javax.swing.JFrame {
                         .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbBulan, 0, 225, Short.MAX_VALUE)
                             .addComponent(labelKehadiran3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(radioIzin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelKehadiran2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(radioSakit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(CmbTahun, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbSemester, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jButton1)))
                 .addContainerGap(107, Short.MAX_VALUE))
         );
         panelMenuLayout.setVerticalGroup(
@@ -200,17 +177,9 @@ public class DataForm extends javax.swing.JFrame {
             .addGroup(panelMenuLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelKehadiran2)
                 .addGap(18, 18, 18)
-                .addComponent(radioIzin, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(radioSakit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(radioTanpaKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
                 .addComponent(labelKehadiran3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmbSemester, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,7 +187,9 @@ public class DataForm extends javax.swing.JFrame {
                 .addComponent(CmbTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmbBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(72, 72, 72))
         );
 
         jPanel1.setBackground(new java.awt.Color(54, 57, 63));
@@ -332,18 +303,6 @@ public class DataForm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    private void radioIzinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioIzinActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioIzinActionPerformed
-
-    private void radioSakitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioSakitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioSakitActionPerformed
-
-    private void radioTanpaKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioTanpaKeteranganActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioTanpaKeteranganActionPerformed
-
     private void CmbTahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbTahunActionPerformed
         // TODO add your handling code here:
         String thn = CmbTahun.getSelectedItem().toString();
@@ -404,6 +363,10 @@ public class DataForm extends javax.swing.JFrame {
             filter(awal,akhir);
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ExportExcel();
+    }//GEN-LAST:event_jButton1ActionPerformed
 //test
     /**
      * @param args the command line arguments
@@ -448,7 +411,6 @@ public class DataForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
         String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
-        DefaultTableModel dtm;
         dtm = new DefaultTableModel(null,kolom);
         ref.addValueEventListener(new ValueEventListener(){
             @Override
@@ -525,7 +487,7 @@ public class DataForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
         String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
-        DefaultTableModel dtm;
+
         dtm = new DefaultTableModel(null,kolom);
         ref.addValueEventListener(new ValueEventListener(){
             @Override
@@ -666,12 +628,71 @@ public class DataForm extends javax.swing.JFrame {
         });
          jTable1.setModel(dtm);
     }
+        
+       public void ExportExcel(){
+        FileOutputStream excelFou = null;
+        BufferedOutputStream excelBou = null;
+        XSSFWorkbook excelJTableExporter = null;
+//        Choose Location saving file
+//        PengelolaanData h = new PengelolaanData();
+        JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\emir\\Documents\\NetBeansProjects\\exportExcel");
+//        change Dialog Box Title
+        excelFileChooser.setDialogTitle("Save As");
+//        Only filter files with these extensions "xls","xlsx","xlsm"
+        FileNameExtensionFilter fnef = new FileNameExtensionFilter("EXCEL FILES", "xls", "xlsx", "xlsm");
+        excelFileChooser.setFileFilter(fnef);
+//        TableModel model = h.tbl_pelanggan.getModel();
+        int excelChooser = excelFileChooser.showSaveDialog(null);
+
+//        check if save poi libararies to netbeans
+        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+
+            try {
+                //Import excel poi libraries to netbeans
+                excelJTableExporter = new XSSFWorkbook();
+                XSSFSheet excelSheet = excelJTableExporter.createSheet("JTable Sheet");
+                //loop to get jtable column and rows
+                for (int i = 0; i < dtm.getRowCount(); i++) {
+                    XSSFRow excelRow = excelSheet.createRow(i);
+                    for (int j = 0; j < dtm.getColumnCount(); j++) {
+                        XSSFCell excelCell = excelRow.createCell(j);
+
+                        excelCell.setCellValue(dtm.getValueAt(i, j).toString());
+                    }
+                }   //Append xlsx file extensions to selected files to create unique file names
+                excelFou = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+                excelBou = new BufferedOutputStream(excelFou);
+                excelJTableExporter.write(excelBou);
+                JOptionPane.showMessageDialog(null,"Success Export Excel");
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    if (excelBou != null) {
+                        excelBou.close();
+                    }
+                    if (excelFou != null) {
+                        excelFou.close();
+                    }
+                    if (excelJTableExporter != null) {
+                        excelJTableExporter.close();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } 
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> CmbTahun;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cmbBulan;
     private javax.swing.JComboBox<String> cmbSemester;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -679,15 +700,11 @@ public class DataForm extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelKehadiran;
     private javax.swing.JLabel labelKehadiran1;
-    private javax.swing.JLabel labelKehadiran2;
     private javax.swing.JLabel labelKehadiran3;
     private javax.swing.JPanel panelAbsen;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMain;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JPanel panelSidebar;
-    private javax.swing.JRadioButton radioIzin;
-    private javax.swing.JRadioButton radioSakit;
-    private javax.swing.JRadioButton radioTanpaKeterangan;
     // End of variables declaration//GEN-END:variables
 }
