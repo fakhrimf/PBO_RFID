@@ -369,7 +369,7 @@ public class PresensiForm extends javax.swing.JFrame {
                     System.out.println("NAME : " + name);
                     System.out.println("GURU : " + guruSnapshot);
                     
-                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarian").child("06-02-2020").child(uid);
+                    DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarianBaru").child("2020-02-14").child(uid);
                     dbRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dPresensi) {
