@@ -55,7 +55,7 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
 
         label_waktu.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
         label_waktu.setForeground(new java.awt.Color(142, 146, 151));
-        label_waktu.setText("06:00:00");
+        label_waktu.setText("06:00");
 
         label_Kehadiran.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
         label_Kehadiran.setForeground(new java.awt.Color(96, 221, 65));
@@ -70,13 +70,11 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label_nama)
                     .addComponent(label_absen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label_waktu)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsenLayout.createSequentialGroup()
-                        .addComponent(label_Kehadiran)
-                        .addGap(20, 20, 20)))
-                .addGap(22, 22, 22))
+                    .addComponent(label_Kehadiran)
+                    .addComponent(label_waktu))
+                .addGap(35, 35, 35))
         );
         panelAbsenLayout.setVerticalGroup(
             panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,11 +83,11 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_nama)
                     .addComponent(label_Kehadiran))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_waktu)
                     .addComponent(label_absen))
-                .addGap(15, 15, 15))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -133,11 +131,10 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
 
     @Override
     public Component getListCellRendererComponent(JList<? extends PresensiModel> jlist, PresensiModel e, int i, boolean bln, boolean bln1) {
+        this.label_waktu.setText(e.getWaktu_masuk());
         this.label_Kehadiran.setText(e.getStatus());
-        this.label_nama.setText(e.getNama());
-        this.label_waktu.setText(e.getWaktu());
-        this.label_absen.setText(e.getNomor_absen());
-        
+        this.label_nama.setText(e.getName());       
+        this.label_absen.setText(e.getId_rfid());        
         return this;
     }
 

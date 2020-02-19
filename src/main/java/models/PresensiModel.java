@@ -5,40 +5,44 @@
  */
 package models;
 
+import com.google.firebase.database.DataSnapshot;
+
 /**
  *
  * @author angga
  */
 public class PresensiModel {
-    private String nama;
-    private String nomor_absen;
-    private String status;
-    private String waktu;
+    private String waktu_masuk, status, id_rfid, name;
 
     public PresensiModel() {
-    }
     
-    public PresensiModel(String nama, String nomor_absen, String status, String waktu) {
-        this.nama = nama;
-        this.nomor_absen = nomor_absen;
+    }
+
+    public PresensiModel(String waktu_masuk, String status, String id_rfid, String name) {
+        this.waktu_masuk = waktu_masuk;
         this.status = status;
-        this.waktu = waktu;
+        this.id_rfid = id_rfid;
+        this.name = name;
     }
 
-    public String getNama() {
-        return nama;
+    public String getId_rfid() {
+        return id_rfid;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setId_rfid(String id_rfid) {
+        this.id_rfid = id_rfid;
     }
 
-    public String getNomor_absen() {
-        return nomor_absen;
+    public String getName() {
+        return name;
     }
 
-    public void setNomor_absen(String nomor_absen) {
-        this.nomor_absen = nomor_absen;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public PresensiModel(DataSnapshot waktu_masuk, String asdasdasd) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getStatus() {
@@ -48,14 +52,12 @@ public class PresensiModel {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getWaktu() {
-        return waktu;
+  
+    public String getWaktu_masuk() {
+        return waktu_masuk;
     }
 
-    public void setWaktu(String waktu) {
-        this.waktu = waktu;
-    }
-    
-    
+    public void setWaktu_masuk(String waktu_masuk) {
+        this.waktu_masuk = waktu_masuk;
+    }  
 }
