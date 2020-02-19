@@ -388,21 +388,21 @@ public class PresensiForm extends javax.swing.JFrame {
                 DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
                 for (DataSnapshot guruSnapshot : dGuru.getChildren())
                 {
-                    nama_list = new ArrayList<String>();
-                    waktu_list = new ArrayList<String>();
-                    uid_list = new ArrayList<String>();
-                    
+                    System.out.println("GURUNYA : " + guruSnapshot);
+
                     String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    System.out.println("UIDNYA " + uid);
+
                     String name = guruSnapshot.child("name").getValue(String.class);
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
+                    System.out.println("NAMENYA : " + name);                                                    
+                    
                     DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarianBaru").child("2020-02-14").child(uid);
                     dbRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dPresensi) {
-                            PresensiModel presensiModel = dPresensi.getValue(PresensiModel.class);
                             String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
-                            String uid = dPresensi.child("id").getValue(String.class);
+                            System.out.println("WAKTU MASUKNYA : " + w_masuk);
+ 
                             defaultListModel.addElement(new PresensiModel(w_masuk,"Hadir",uid,name));
                             jList1.setModel(defaultListModel);
                             jList1.setCellRenderer(new presensiTemplate());
