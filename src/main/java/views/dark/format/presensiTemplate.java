@@ -38,8 +38,9 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
         label_absen = new javax.swing.JLabel();
         label_waktu = new javax.swing.JLabel();
         label_Kehadiran = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(44, 47, 51));
 
         panelAbsen.setBackground(new java.awt.Color(32, 34, 37));
         panelAbsen.setMaximumSize(new java.awt.Dimension(0, 32767));
@@ -61,6 +62,9 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
         label_Kehadiran.setForeground(new java.awt.Color(96, 221, 65));
         label_Kehadiran.setText("Hadir");
 
+        jSeparator1.setBackground(new java.awt.Color(42, 44, 47));
+        jSeparator1.setForeground(new java.awt.Color(42, 44, 47));
+
         javax.swing.GroupLayout panelAbsenLayout = new javax.swing.GroupLayout(panelAbsen);
         panelAbsen.setLayout(panelAbsenLayout);
         panelAbsenLayout.setHorizontalGroup(
@@ -70,11 +74,12 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label_nama)
                     .addComponent(label_absen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label_Kehadiran)
                     .addComponent(label_waktu))
                 .addGap(35, 35, 35))
+            .addComponent(jSeparator1)
         );
         panelAbsenLayout.setVerticalGroup(
             panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,11 +88,13 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_nama)
                     .addComponent(label_Kehadiran))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_waktu)
                     .addComponent(label_absen))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -96,15 +103,15 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -122,6 +129,7 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator1;
     public javax.swing.JLabel label_Kehadiran;
     private javax.swing.JLabel label_absen;
     private javax.swing.JLabel label_nama;

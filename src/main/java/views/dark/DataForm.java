@@ -112,6 +112,9 @@ public class DataForm extends javax.swing.JFrame {
         labelKehadiran3.setForeground(new java.awt.Color(103, 103, 103));
         labelKehadiran3.setText("Filter Status");
 
+        cmbBulan.setBackground(new java.awt.Color(45, 48, 52));
+        cmbBulan.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        cmbBulan.setForeground(new java.awt.Color(255, 255, 255));
         cmbBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Bulan ]", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "12" }));
         cmbBulan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +129,9 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        CmbTahun.setBackground(new java.awt.Color(45, 48, 52));
+        CmbTahun.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        CmbTahun.setForeground(new java.awt.Color(255, 255, 255));
         CmbTahun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
         CmbTahun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +139,9 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        cmbSemester.setBackground(new java.awt.Color(45, 48, 52));
+        cmbSemester.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        cmbSemester.setForeground(new java.awt.Color(255, 255, 255));
         cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Semseter ]", "1", "2" }));
         cmbSemester.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +149,9 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
+        jComboBox3.setBackground(new java.awt.Color(45, 48, 52));
+        jComboBox3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jComboBox3.setForeground(new java.awt.Color(255, 255, 255));
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Pertriwulan ]", "Jan-Feb-Mar", "Apr-May-Jun", "Jul-Aug-Sep", "Oct-Nov-Dec" }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -643,7 +655,7 @@ public class DataForm extends javax.swing.JFrame {
                         }
                     });
                    
-                }        
+                }
             }
             @Override
             public void onCancelled(DatabaseError de) {
@@ -687,7 +699,7 @@ public class DataForm extends javax.swing.JFrame {
                 excelFou = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
                 excelBou = new BufferedOutputStream(excelFou);
                 excelJTableExporter.write(excelBou);
-                JOptionPane.showMessageDialog(null,"Success Export Excel");
+                JOptionPane.showMessageDialog(null,"Ekspor Berhasil");
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {

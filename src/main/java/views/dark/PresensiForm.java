@@ -6,40 +6,24 @@
 package views.dark;
 
 import utils.FirebaseConnection;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import models.PresensiModel;
-import models.SiswaModel;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import views.dark.format.presensiTemplate;
 
 public class PresensiForm extends javax.swing.JFrame {
@@ -53,8 +37,8 @@ public class PresensiForm extends javax.swing.JFrame {
         showData();
         
         Border border = BorderFactory.createEmptyBorder();
-        jList1.setBorder(new LineBorder(Color.black));
-        jList1.setOpaque(true);
+//        jList1.setBorder(new LineBorder(Color.black));
+//        jList1.setOpaque(true);
     }
 
     /**
@@ -286,7 +270,10 @@ public class PresensiForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(54, 57, 63));
 
-        jList1.setBackground(new java.awt.Color(51, 51, 51));
+        jScrollPane1.setBackground(new java.awt.Color(44, 47, 51));
+        jScrollPane1.setBorder(null);
+
+        jList1.setBackground(new java.awt.Color(44, 47, 51));
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
