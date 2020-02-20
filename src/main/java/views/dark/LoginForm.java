@@ -10,10 +10,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import utils.PasswordUtils;
-
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileInputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.spec.SecretKeySpec;
+import javax.imageio.ImageIO;
 
 import static utils.Constants.LOGIN_ENTER_COLOR;
 import static utils.Constants.LOGIN_NORMAL_COLOR;
@@ -32,6 +33,7 @@ import models.UserModel;
  * @author Fakhri MF
  */
 public class LoginForm extends javax.swing.JFrame {
+
     private static SecretKeySpec secretKey;
     Connection con;
     private String DB_Parent = "Guru";
@@ -39,41 +41,40 @@ public class LoginForm extends javax.swing.JFrame {
     private String DB_Password = "password";
     DatabaseReference db;
     ArrayList<UserModel> dataguru = new ArrayList<UserModel>();
-    boolean status_db=false;
-    
-    public void initdb(){
+    boolean status_db = false;
+
+    public void initdb() {
         db.addValueEventListener(new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
-            dataguru.clear();
-            for(DataSnapshot kumass : dataSnapshot.getChildren()){
-                UserModel guru = kumass.getValue(UserModel.class);
-                dataguru.add(guru);
-            }
-            //Jika Array Di Balik isinya
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataguru.clear();
+                for (DataSnapshot kumass : dataSnapshot.getChildren()) {
+                    UserModel guru = kumass.getValue(UserModel.class);
+                    dataguru.add(guru);
+                }
+                //Jika Array Di Balik isinya
 //            for(int i = dataguru.size();i>=0;i--){
 //                arraybaru.add(dataguru.get(i));
 //            }
-            status_db=true;
-            System.out.print("Database Selesai Di Inisiasi");
-          }
-          
-          
+                status_db = true;
+                System.out.print("Database Selesai Di Inisiasi");
+            }
 
-          @Override
-          public void onCancelled(DatabaseError error) {
-          }
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
 
         });
     }
-    
+
     public LoginForm() {
         initComponents();
-        try{
+        responsive();
+        try {
             //Fungsi initapp hanya boleh di login doang
             FirebaseConnection.initApp();
             db = FirebaseConnection.getRef(DB_Parent);
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex);
         }
         initdb();
@@ -84,10 +85,34 @@ public class LoginForm extends javax.swing.JFrame {
 //System.out.println(array[1]); //Hasilnya 04
 //        System.out.println(array[2]); //Hasilnya 2003
         setLocation();
-        
+
         // Membuat panel header transparan
         panelHeader.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.5f));
     }
+
+    private void responsive() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+        panelMain.setSize(width, height);
+        panelHeader.setSize(width, 47);
+        jLabel1.setSize(width, height);
+
+        Image img = null;
+        try {
+            img = ImageIO.read(getClass().getResource("/assets/landscape.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        var dimg = (Image) img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        ImageIcon imageIcon = new ImageIcon(dimg);
+
+        jLabel1.setIcon(imageIcon);
+
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -162,16 +187,21 @@ public class LoginForm extends javax.swing.JFrame {
         buttonLogin.setText("LOGIN");
         buttonLogin.setBorder(null);
         buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                buttonLoginMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 buttonLoginMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                buttonLoginMouseExited(evt);
             }
         });
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonLoginActionPerformed(evt);
+            }
+        });
+        buttonLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buttonLoginKeyPressed(evt);
             }
         });
 
@@ -207,10 +237,10 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         panelMain.add(jPanel1);
-        jPanel1.setBounds(520, 270, 354, 290);
+        jPanel1.setBounds(520, 270, 354, 289);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/landscape 1.png"))); // NOI18N
-        jLabel1.setText("jLabel1");
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/landscape.png"))); // NOI18N
+        jLabel1.setToolTipText("");
         panelMain.add(jLabel1);
         jLabel1.setBounds(0, -3, 1360, 770);
 
@@ -246,71 +276,74 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-//        try {
-//            login();
-//        } catch (IOException ex) {
-//            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try{
+            login();
+        }catch(IOException ex){
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameFieldActionPerformed
+
+    private void buttonLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buttonLoginKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonLoginKeyPressed
     //</editor-fold>
 
     // <editor-fold defaultstate="expanded" desc="Functions">
     private void login() throws IOException, IOException {
         final String secretKey = PASSWORD_KEY;
-        
+
         String username = usernameField.getText();
         String password = passwordField.getPassword().toString();
         String originalPass = String.valueOf(passwordField.getPassword());
-        
+
         PasswordUtils pass = new PasswordUtils();
         String encryptedString = pass.encrypt(originalPass, secretKey);
-        
-        if(username.equalsIgnoreCase("") || password.equalsIgnoreCase("")){
+
+        if (username.equalsIgnoreCase("") || password.equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(null, "Username atau Password kosong");
-        }else {
-            Access(username,originalPass);
+        } else {
+            Access(username, originalPass);
         }
 
     }
-    private void Access(final String username,final String password) throws FileNotFoundException, IOException{
+
+    private void Access(final String username, final String password) throws FileNotFoundException, IOException {
         //String field = "" ;
-        if(status_db){
-            
-        boolean status_guru =false;
-        for(int i = 0;i<dataguru.size();i++){
-            if(username.contains("@")){
-                if(dataguru.get(i).getUsername().equals(username)){
-                    UserModel user = dataguru.get(i);
-                    if(user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)){
-                        HomeForm homeForm = new HomeForm();
-                        homeForm.setVisible(true);
-                        this.dispose();                    
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Password salah");                    
-                    }
-                    status_guru = true;
-                    break;
-                }else{
+        if (status_db) {
+
+            boolean status_guru = false;
+            for (int i = 0; i < dataguru.size(); i++) {
+                if (username.contains("@")) {
+                    if (dataguru.get(i).getUsername().equals(username)) {
+                        UserModel user = dataguru.get(i);
+                        if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password)) {
+                            new HomeForm().setVisible(true);
+                             this.setVisible(false);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Password salah");
+                        }
+                        status_guru = true;
+                        break;
+                    } else {
 //                    JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
                         status_guru = false;
+                    }
+                } else {
+
                 }
-            }else{
-                
             }
-        }
-        if(!status_guru){
-            JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
-        }
-        }else{
+            if (!status_guru) {
+                JOptionPane.showMessageDialog(null, "Username Tidak Ditemukan");
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Cek Internet(Tunggu 5 Detik)");
-         //   initdb();
+            //   initdb();
         }
-        
-                
+
     }
 
     final public void setLocation() {
