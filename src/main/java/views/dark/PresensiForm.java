@@ -373,6 +373,7 @@ public class PresensiForm extends javax.swing.JFrame {
     
     public void showData()
     {
+        presensiTemplate pt = new presensiTemplate();
         DatabaseReference ref = null;
      	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	Date date = new Date();
@@ -388,25 +389,34 @@ public class PresensiForm extends javax.swing.JFrame {
                 DefaultListModel<PresensiModel> defaultListModel = new DefaultListModel<>();
                 for (DataSnapshot guruSnapshot : dGuru.getChildren())
                 {
-                    nama_list = new ArrayList<String>();
-                    waktu_list = new ArrayList<String>();
-                    uid_list = new ArrayList<String>();
-                    
+                    System.out.println("GURUNYA : " + guruSnapshot);
                     String uid = guruSnapshot.child("rfid_key").getValue(String.class);
+                    System.out.println("UIDNYA " + uid);
                     String name = guruSnapshot.child("name").getValue(String.class);
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
+                    System.out.println("NAMENYA : " + name);                                                    
+                    
                     DatabaseReference dbRef2 = FirebaseDatabase.getInstance().getReference("RekapHarianBaru").child("2020-02-14").child(uid);
                     dbRef2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dPresensi) {
-                            PresensiModel presensiModel = dPresensi.getValue(PresensiModel.class);
+                            String w_keluar = dPresensi.child("waktu_keluar").getValue(String.class);
                             String w_masuk = dPresensi.child("waktu_masuk").getValue().toString();
-                            String uid = dPresensi.child("id").getValue(String.class);
-                            defaultListModel.addElement(new PresensiModel(w_masuk,"Hadir",uid,name));
-                            jList1.setModel(defaultListModel);
-                            jList1.setCellRenderer(new presensiTemplate());
-                            System.out.println("PRESENSI : " + dPresensi);
+                            System.out.println("WAKTU MASUKNYA : " + w_masuk);
+                            System.out.println("WAKTU KELUARNYA : " + w_keluar);
+                            if(w_keluar == null)
+                            {
+                                defaultListModel.addElement(new PresensiModel(w_masuk,"Hadir",uid,name));
+                                jList1.setModel(defaultListModel);
+                                jList1.setCellRenderer(new presensiTemplate());
+                                System.out.println("PRESENSI : " + dPresensi);                                
+                            } else {
+                                pt.label_Kehadiran.setForeground(Color.yellow);
+                                defaultListModel.addElement(new PresensiModel(w_keluar,"Keluar",uid,name));
+                                jList1.setModel(defaultListModel);
+                                jList1.setCellRenderer(new presensiTemplate());
+                                System.out.println("PRESENSI : " + dPresensi);
+                            }
+                                                          
                         }
                         @Override
                         public void onCancelled(DatabaseError de) {
