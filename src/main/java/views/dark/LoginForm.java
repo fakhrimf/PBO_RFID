@@ -162,11 +162,11 @@ public class LoginForm extends javax.swing.JFrame {
         buttonLogin.setText("LOGIN");
         buttonLogin.setBorder(null);
         buttonLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                buttonLoginMouseExited(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 buttonLoginMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                buttonLoginMouseExited(evt);
             }
         });
         buttonLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -207,7 +207,7 @@ public class LoginForm extends javax.swing.JFrame {
         );
 
         panelMain.add(jPanel1);
-        jPanel1.setBounds(520, 270, 354, 290);
+        jPanel1.setBounds(520, 270, 354, 294);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/landscape 1.png"))); // NOI18N
         jLabel1.setText("jLabel1");
