@@ -105,7 +105,7 @@ public class LoginForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        var dimg = (Image) img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image dimg = (Image) img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         ImageIcon imageIcon = new ImageIcon(dimg);
 

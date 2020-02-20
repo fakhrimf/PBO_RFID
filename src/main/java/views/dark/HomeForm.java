@@ -12,12 +12,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.*;
+import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -40,6 +50,7 @@ public class HomeForm extends javax.swing.JFrame {
     DatabaseReference db;
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
     boolean status_db = false, status_guru = false;
+    int progress_value;
 
     public void initguru() {
         gurulist.clear();
@@ -78,6 +89,62 @@ public class HomeForm extends javax.swing.JFrame {
         Border border = BorderFactory.createEmptyBorder();
         jList16.setBorder(new LineBorder(Color.black));
         jList16.setOpaque(true);
+        
+        try{
+                for(int a=1;a<=100;a++){
+                 abc(50);
+                
+                }
+                
+            }catch(Exception e)
+            {
+                System.out.println(e);
+            }
+    }
+    
+     public void abc(int a){
+        progress_value=a;
+    
+    }
+     
+    public void paint(Graphics g){
+        super.paint(g);
+        
+        Graphics2D g2=(Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        g2.translate(this.getWidth()/2, this.getHeight()/2);
+        g2.rotate(Math.toRadians(270));
+        
+        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
+        
+        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
+        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
+        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
+        
+        arc.setAngleStart(1);
+        arc.setAngleExtent(-progress_value*3.6);
+        g2.setColor(new Color(85, 99, 233));
+        g2.draw(arc);
+        g2.fill(arc);
+        
+        g2.setColor(new Color(32,34,37));
+        g2.draw(circle);
+        g2.fill(circle);
+        g2.setColor(new Color(85, 99, 233));
+        g2.rotate(Math.toRadians(90));
+        g.setFont(new Font("Poppins",Font.PLAIN,60));
+        
+        FontMetrics fm=g2.getFontMetrics();
+        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
+        
+        int x=(0-(int)r.getWidth()/2);
+        int y=(0-(int)r.getHeight()/2+fm.getAscent());
+        
+        g2.drawString(progress_value+"%",x,y);
+        
+        JPanel panel1 = this.jPanel1;
+        panel1.setLayout(new java.awt.BorderLayout());
     }
 
     private void responsive() {
@@ -202,7 +269,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnHomeLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 8, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -244,7 +311,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnPresensiLayout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(0, 8, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -280,7 +347,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnRekapanLayout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(0, 8, Short.MAX_VALUE))
+                        .addGap(0, 6, Short.MAX_VALUE))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -361,7 +428,6 @@ public class HomeForm extends javax.swing.JFrame {
         jScrollPane1.setForeground(new java.awt.Color(32, 34, 37));
         jScrollPane1.setToolTipText("");
         jScrollPane1.setAutoscrolls(true);
-        jScrollPane1.setColumnHeaderView(null);
 
         jTable1.setBackground(new java.awt.Color(32, 34, 37));
         jTable1.setForeground(new java.awt.Color(103, 103, 103));
@@ -380,7 +446,6 @@ public class HomeForm extends javax.swing.JFrame {
         jTable1.setPreferredSize(new java.awt.Dimension(300, 500));
         jTable1.setRowHeight(40);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable1.setShowGrid(true);
         jScrollPane1.setViewportView(jTable1);
         jTable1.getAccessibleContext().setAccessibleDescription("");
 
