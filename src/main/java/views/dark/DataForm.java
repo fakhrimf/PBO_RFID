@@ -16,12 +16,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import models.DailyDataModel;
 import models.PresensiModel;
 import models.RekapanModel;
+import models.TeacherModel;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -38,13 +41,41 @@ public class DataForm extends javax.swing.JFrame {
     /**
      * Creates new form Home+
      */
-    
     DefaultTableModel dtm;
-    
+    DatabaseReference db;
+    ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
+    boolean status_db = false, status_guru = false;
+
+    public void initguru() {
+        gurulist.clear();
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+                status_db = true;
+                for (DataSnapshot ss : ds.getChildren()) {
+                    TeacherModel guru = ss.getValue(TeacherModel.class);
+                    gurulist.add(guru);
+                }
+                status_guru = true;
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError de) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+    }
+
     public DataForm() {
         initComponents();
         setLocation();
-
+        try {
+            db = FirebaseConnection.getRef("Guru");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        initguru();
 
 //        showDataForm();
     }
@@ -61,9 +92,9 @@ public class DataForm extends javax.swing.JFrame {
         labelKehadiran3 = new javax.swing.JLabel();
         cmbBulan = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        CmbTahun = new javax.swing.JComboBox<>();
+        cmbTahun = new javax.swing.JComboBox<>();
         cmbSemester = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cmbTriwulan = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         panelAbsen = new javax.swing.JPanel();
@@ -108,7 +139,7 @@ public class DataForm extends javax.swing.JFrame {
         labelKehadiran3.setForeground(new java.awt.Color(103, 103, 103));
         labelKehadiran3.setText("Filter Status");
 
-        cmbBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Bulan ]", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "12" }));
+        cmbBulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Bulan ]", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
         cmbBulan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbBulanActionPerformed(evt);
@@ -122,24 +153,24 @@ public class DataForm extends javax.swing.JFrame {
             }
         });
 
-        CmbTahun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
-        CmbTahun.addActionListener(new java.awt.event.ActionListener() {
+        cmbTahun.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Tahun ]", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022" }));
+        cmbTahun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CmbTahunActionPerformed(evt);
+                cmbTahunActionPerformed(evt);
             }
         });
 
-        cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Semseter ]", "1", "2" }));
+        cmbSemester.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Semester ]", "1", "2" }));
         cmbSemester.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbSemesterActionPerformed(evt);
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Pertriwulan ]", "Jan-Feb-Mar", "Apr-May-Jun", "Jul-Aug-Sep", "Oct-Nov-Dec" }));
-        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+        cmbTriwulan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "[ Pilih Pertriwulan ]", "Jan-Feb-Mar", "Apr-May-Jun", "Jul-Aug-Sep", "Oct-Nov-Dec" }));
+        cmbTriwulan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox3ActionPerformed(evt);
+                cmbTriwulanActionPerformed(evt);
             }
         });
 
@@ -164,9 +195,9 @@ public class DataForm extends javax.swing.JFrame {
                         .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbBulan, 0, 225, Short.MAX_VALUE)
                             .addComponent(labelKehadiran3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CmbTahun, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbTahun, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmbSemester, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cmbTriwulan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(panelMenuLayout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addComponent(jButton1)))
@@ -180,11 +211,11 @@ public class DataForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(labelKehadiran3)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbTriwulan, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmbSemester, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(CmbTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbTahun, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cmbBulan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -303,80 +334,100 @@ public class DataForm extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    private void CmbTahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbTahunActionPerformed
+    private void cmbTahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTahunActionPerformed
         // TODO add your handling code here:
-        String thn = CmbTahun.getSelectedItem().toString();
-        String awal = thn +"-01-01";
-        String akhir = thn +"-12-31";
-        filter(awal ,akhir);
-    }//GEN-LAST:event_CmbTahunActionPerformed
+        if (check(cmbTahun)) {
+            System.out.println("RUN FILTER");
+            resetfilter(cmbTahun);
+            String thn = cmbTahun.getSelectedItem().toString();
+            String awal = thn + "-01-01";
+            String akhir = thn + "-12-31";
+            filter(awal, akhir);
+        }
+
+    }//GEN-LAST:event_cmbTahunActionPerformed
 
     private void cmbBulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBulanActionPerformed
         // TODO add your handling code here:
-        String bln = cmbBulan.getSelectedItem().toString();
-        String awal = "2020-"+bln+"-01";
-        String akhir = "2020-"+bln+"-31";
-        filterBulan(awal,akhir);
+        if (check(cmbBulan)) {
+            System.out.println("RUN FILTER");
+            resetfilter(cmbBulan);
+            String bln = cmbBulan.getSelectedItem().toString();
+            String awal = "2020-" + bln + "-01";
+            String akhir = "2020-" + bln + "-31";
+            filter(awal, akhir);
+        }
     }//GEN-LAST:event_cmbBulanActionPerformed
 
     private void cmbSemesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSemesterActionPerformed
         // TODO add your handling code here:
-        String semester = cmbSemester.getSelectedItem().toString();
-        
-        Date dt = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        String tahun_sekarang = sdf.format(dt);
-        
-        if(semester == "1"){
-            String awal = tahun_sekarang + "-01-01";
-            String akhir = tahun_sekarang + "-06-31";
-            filterSemester(awal,akhir);
-        }else if(semester == "2"){
-            String awal = tahun_sekarang + "-07-01";
-            String akhir = tahun_sekarang + "-12-31";
-            filterSemester(awal,akhir);
+        if (check(cmbSemester)) {
+            System.out.println("RUN FILTER");
+            String semester = cmbSemester.getSelectedItem().toString();
+            resetfilter(cmbSemester);
+            Date dt = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            String tahun_sekarang = sdf.format(dt);
+
+            if (semester.equals("1")) {
+                String awal = tahun_sekarang + "-01-01";
+                String akhir = tahun_sekarang + "-06-31";
+                filter(awal, akhir);
+            } else if (semester.equals("2")) {
+                String awal = tahun_sekarang + "-07-01";
+                String akhir = tahun_sekarang + "-12-31";
+                filter(awal, akhir);
+            }
         }
+
     }//GEN-LAST:event_cmbSemesterActionPerformed
 
-    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-        String triwulan = jComboBox3.getSelectedItem().toString();
-        
-        Date dt = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        String tahun_sekarang = sdf.format(dt);
-        
-        if(triwulan.equalsIgnoreCase("jan-feb-mar")){
-            String awal = tahun_sekarang + "-01-01";
-            String akhir = tahun_sekarang + "-03-31";
-            filter(awal,akhir);
-        }else if(triwulan.equalsIgnoreCase("apr-may-jun")){
-            String awal = tahun_sekarang + "-04-01";
-            String akhir = tahun_sekarang + "-06-31";
-            filter(awal,akhir);
-        }else if(triwulan.equalsIgnoreCase("jul-aug-sep")){
-            String awal = tahun_sekarang + "-07-01";
-            String akhir = tahun_sekarang + "-09-31";
-            filter(awal,akhir);
-        }else if(triwulan.equalsIgnoreCase("oct-nov-des")){
-            String awal = tahun_sekarang + "-10-01";
-            String akhir = tahun_sekarang + "-12-31";
-            filter(awal,akhir);
+
+    private void cmbTriwulanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTriwulanActionPerformed
+        if (check(cmbTriwulan)) {
+            System.out.println("RUN FILTER");
+            String triwulan = cmbTriwulan.getSelectedItem().toString();
+            resetfilter(cmbTriwulan);
+
+            Date dt = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            String tahun_sekarang = sdf.format(dt);
+
+            if (triwulan.equalsIgnoreCase("jan-feb-mar")) {
+                String awal = tahun_sekarang + "-01-01";
+                String akhir = tahun_sekarang + "-03-31";
+                filter(awal, akhir);
+            } else if (triwulan.equalsIgnoreCase("apr-may-jun")) {
+                String awal = tahun_sekarang + "-04-01";
+                String akhir = tahun_sekarang + "-06-31";
+                filter(awal, akhir);
+            } else if (triwulan.equalsIgnoreCase("jul-aug-sep")) {
+                String awal = tahun_sekarang + "-07-01";
+                String akhir = tahun_sekarang + "-09-31";
+                filter(awal, akhir);
+            } else if (triwulan.equalsIgnoreCase("oct-nov-des")) {
+                String awal = tahun_sekarang + "-10-01";
+                String akhir = tahun_sekarang + "-12-31";
+                filter(awal, akhir);
+            }
+
         }
-    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    }//GEN-LAST:event_cmbTriwulanActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ExportExcel();
     }//GEN-LAST:event_jButton1ActionPerformed
 //test
+
     /**
      * @param args the command line arguments
      */
-    
     final public void setLocation() {
         this.setLocationRelativeTo(null);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -398,238 +449,112 @@ public class DataForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new DataForm().setVisible(true));
     }
-    
-        public void filter(String awal,String akhir){
-        DatabaseReference ref = null;
-     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date date = new Date();
-        System.out.println(dateFormat.format(date));
-        
-        try{
-            ref = FirebaseConnection.getRef("Guru");
-        }catch(IOException ex){
-            System.out.println(ex);
+    int loopbox = 1;
+
+    private void resetfilter(JComboBox box) {
+        if (loopbox == 1) {
+            loopbox--;
+            ArrayList<JComboBox> array = new ArrayList<JComboBox>();
+            array.add(cmbTriwulan);
+            array.add(cmbSemester);
+            array.add(cmbTahun);
+            array.add(cmbBulan);
+
+            for (int i = 0; i < array.size(); i++) {
+                if (array.get(i) != box) {
+                    array.get(i).setSelectedIndex(0);
+                }
+            }
+        } else if (loopbox == 0) {
+            loopbox = 1;
+            resetfilter(box);
+        } else {
+            loopbox--;
         }
-        String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
-        dtm = new DefaultTableModel(null,kolom);
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dGuru) {
-                
-                String tahun ="2020";
-                for (DataSnapshot guruSnapshot : dGuru.getChildren()){
 
-                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
-                    String name = guruSnapshot.child("name").getValue(String.class);
-                
-                    
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
-                    //        Untuk Split Tanggal
-                    
-                    String tanggal = "12-12-2020";
-                    String[] array = tanggal.split("-");
-//                startAt("01-01"+array[2]).endAt("31-12"+array[2])
-//                child("06-02-"+array[2])
-                    DatabaseReference dbRef2 = null;
-                    try{
-                        dbRef2 = FirebaseConnection.getRef("RekapHarianBaru");
-                    }catch(IOException ex){
-                        System.out.println(ex);
-                    }
-                    
-                    System.out.println("ini yang muncul:"+dbRef2);
-                    // Untuk Kehadiran Harus ada Waktu Keluar
-                    // contoh kalo yang dibawah ss.child(uid).child("waktu_masuk").getValue(String.class);
-                    // Kalo Gk ada  Di anggap gk hadir DI Rekapan
-                    dbRef2.orderByKey().startAt(awal).endAt(akhir).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
-                            for(DataSnapshot ss : dPresensi.getChildren() ){
-                                RekapanModel pm = ss.getValue(RekapanModel.class);
-                                String w_masuk = ss.child(uid).child("waktu_masuk").getValue(String.class);
-                                String tanggal = ss.child(uid).child("tanggal").getValue(String.class);
-                                if(ss.child(uid).child("tanggal").getValue(String.class) != null){
-                                    dtm.addRow(new String[]{uid,name,w_masuk,"Hadir",tanggal});
-                                }else{
-//                                    dtm.addRow(new String[]{"Dia","Tidak","Hadir",uid,name});
-                                }
-                                System.out.println("Rekapan Tahun: " + dPresensi);
-                            }
-      
-                        }
-                        
-                        @Override
-                        public void onCancelled(DatabaseError de) {
-                           System.out.println("The read failed: " + de.getCode());
-                        }
-                    });
-                   
-                }        
-            }
-            @Override
-            public void onCancelled(DatabaseError de) {
-                System.out.println("The read failed: " + de.getCode());
-            }
-        });
-         jTable1.setModel(dtm);
     }
-        
-        public void filterBulan(String awal,String akhir){
-        DatabaseReference ref = null;
-     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date date = new Date();
-        System.out.println(dateFormat.format(date));
-        
-        try{
-            ref = FirebaseConnection.getRef("Guru");
-        }catch(IOException ex){
-            System.out.println(ex);
+
+    private boolean check(JComboBox box) {
+        boolean status = false;
+        if (box.getSelectedIndex() != 0) {
+            status = true;
         }
-        String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
-
-        dtm = new DefaultTableModel(null,kolom);
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dGuru) {
-                
-                String tahun ="2020";
-                for (DataSnapshot guruSnapshot : dGuru.getChildren()){
-
-                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
-                    String name = guruSnapshot.child("name").getValue(String.class);
-                
-                    
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
-                    //        Untuk Split Tanggal
-                    
-                    String tanggal = "12-12-2020";
-                    String[] array = tanggal.split("-");
-//                startAt("01-01"+array[2]).endAt("31-12"+array[2])
-//                child("06-02-"+array[2])
-                    DatabaseReference dbRef2 = null;
-                    try{
-                        dbRef2 = FirebaseConnection.getRef("RekapHarianBaru");
-                    }catch(IOException ex){
-                        System.out.println(ex);
-                    }
-                    
-                    System.out.println("ini yang muncul:"+dbRef2);
-                    // Untuk Kehadiran Harus ada Waktu Keluar
-                    // contoh kalo yang dibawah ss.child(uid).child("waktu_masuk").getValue(String.class);
-                    // Kalo Gk ada  Di anggap gk hadir DI Rekapan
-                    dbRef2.orderByKey().startAt(awal).endAt(akhir).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
-                            for(DataSnapshot ss : dPresensi.getChildren() ){
-                                RekapanModel pm = ss.getValue(RekapanModel.class);
-                                String w_masuk = ss.child(uid).child("waktu_masuk").getValue(String.class);
-                                String tanggal = ss.child(uid).child("tanggal").getValue(String.class);
-                                if(ss.child(uid).child("tanggal").getValue(String.class) != null){
-                                    dtm.addRow(new String[]{uid,name,w_masuk,"Hadir",tanggal});
-                                }else{
-//                                    dtm.addRow(new String[]{"Dia","Tidak","Hadir",uid,name});
-                                }
-                                System.out.println("Rekapan Tahun: " + dPresensi);
-                            }
-      
-                        }
-                        
-                        @Override
-                        public void onCancelled(DatabaseError de) {
-                           System.out.println("The read failed: " + de.getCode());
-                        }
-                    });
-                   
-                }        
-            }
-            @Override
-            public void onCancelled(DatabaseError de) {
-                System.out.println("The read failed: " + de.getCode());
-            }
-        });
-         jTable1.setModel(dtm);
+        return status;
     }
-        
-        public void filterSemester(String awal,String akhir){
-        DatabaseReference ref = null;
-     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date date = new Date();
-        System.out.println(dateFormat.format(date));
-        
-        try{
-            ref = FirebaseConnection.getRef("Guru");
-        }catch(IOException ex){
-            System.out.println(ex);
+
+    public void filter(String awal, String akhir) {
+        if (status_db && status_guru) {
+
+            for (int i = 0; i < gurulist.size(); i++) {
+                TeacherModel guru = gurulist.get(i);
+                guru.setJml_masuk(0);
+                final int nomor = i;
+                System.out.println("Nomor : " + nomor);
+                DatabaseReference dbRef2 = null;
+                try {
+                    dbRef2 = FirebaseConnection.getRef("RekapHarianBaru");
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
+
+                System.out.println("ini yang muncul:" + dbRef2);
+                System.out.println(awal + " Sampai " + akhir);
+                // Untuk Kehadiran Harus ada Waktu Keluar
+                // contoh kalo yang dibawah ss.child(uid).child("waktu_masuk").getValue(String.class);
+                // Kalo Gk ada  Di anggap gk hadir DI Rekapan
+                dbRef2.orderByKey().startAt(awal).endAt(akhir).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dPresensi) {
+                        boolean change = false;
+                        for (DataSnapshot ss : dPresensi.getChildren()) {
+                            DailyDataModel pm = ss.child(guru.getRfid_key()).getValue(DailyDataModel.class);
+                            if (ss.child(guru.getRfid_key()).getValue(DailyDataModel.class) == null) {
+                                System.out.println("BREAK");
+                                continue;
+                            }
+                            System.out.println("Start");
+                            System.out.println("PM : " + pm);
+                            System.out.println(guru.getRfid_key());
+                            String w_masuk = pm.getWaktu_masuk();
+                            String tanggal = pm.getTanggal();
+                            guru.setJml_masuk(guru.getJml_masuk() + 1);
+                            gurulist.get(nomor).setJml_masuk(guru.getJml_masuk());
+                            System.out.println(guru.getJml_masuk());
+                            System.out.println("OwO");
+//                            System.out.println("Rekapan Tahun: " + dPresensi);
+                        }
+                        addRowDTM();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError de) {
+                        System.out.println("The read failed: " + de.getCode());
+                    }
+                });
+            }
+
+        } else if (status_db && !status_guru) {
+            JOptionPane.showMessageDialog(null, "Cek Database Guru");
+            initguru();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cek Koneksi");
+            initguru();
         }
-        String[] kolom = {"ID","Nama","Waktu Masuk","Status","Tahun"};
-        DefaultTableModel dtm;
-        dtm = new DefaultTableModel(null,kolom);
-        ref.addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(DataSnapshot dGuru) {
-                
-                String tahun ="2020";
-                for (DataSnapshot guruSnapshot : dGuru.getChildren()){
-
-                    String uid = guruSnapshot.child("rfid_key").getValue(String.class);
-                    String name = guruSnapshot.child("name").getValue(String.class);
-                
-                    
-                    System.out.println("NAME : " + name);
-                    System.out.println("GURU : " + guruSnapshot);
-                    //        Untuk Split Tanggal
-                    
-                    String tanggal = "12-12-2020";
-                    String[] array = tanggal.split("-");
-//                startAt("01-01"+array[2]).endAt("31-12"+array[2])
-//                child("06-02-"+array[2])
-                    DatabaseReference dbRef2 = null;
-                    try{
-                        dbRef2 = FirebaseConnection.getRef("RekapHarianBaru");
-                    }catch(IOException ex){
-                        System.out.println(ex);
-                    }
-                    
-                    System.out.println("ini yang muncul:"+dbRef2);
-                    // Untuk Kehadiran Harus ada Waktu Keluar
-                    // contoh kalo yang dibawah ss.child(uid).child("waktu_masuk").getValue(String.class);
-                    // Kalo Gk ada  Di anggap gk hadir DI Rekapan
-                    dbRef2.orderByKey().startAt(awal).endAt(akhir).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dPresensi) {
-                            for(DataSnapshot ss : dPresensi.getChildren() ){
-                                RekapanModel pm = ss.getValue(RekapanModel.class);
-                                String w_masuk = ss.child(uid).child("waktu_masuk").getValue(String.class);
-                                String tanggal = ss.child(uid).child("tanggal").getValue(String.class);
-                                if(ss.child(uid).child("tanggal").getValue(String.class) != null){
-                                    dtm.addRow(new String[]{uid,name,w_masuk,"Hadir",tanggal});
-                                }else{
-//                                    dtm.addRow(new String[]{"Dia","Tidak","Hadir",uid,name});
-                                }
-                                System.out.println("Rekapan Tahun: " + dPresensi);
-                            }
-      
-                        }
-                        
-                        @Override
-                        public void onCancelled(DatabaseError de) {
-                           System.out.println("The read failed: " + de.getCode());
-                        }
-                    });
-                   
-                }        
-            }
-            @Override
-            public void onCancelled(DatabaseError de) {
-                System.out.println("The read failed: " + de.getCode());
-            }
-        });
-         jTable1.setModel(dtm);
     }
-        
-       public void ExportExcel(){
+
+    private void addRowDTM() {
+        String[] kolom = {"No", "GNRS", "Nama", "RFID Key", "Jumlah Kehadiran"};
+        dtm = new DefaultTableModel(null, kolom);
+        for (int i = 0; i < gurulist.size(); i++) {
+            TeacherModel guru = gurulist.get(i);
+            System.out.println("Add Row Guru : " + guru.getJml_masuk());
+            dtm.addRow(new String[]{(i + 1) + ".", guru.getGnrs(), guru.getName(), guru.getRfid_key(), String.valueOf(guru.getJml_masuk())});
+        }
+        jTable1.setModel(dtm);
+
+    }
+
+    public void ExportExcel() {
         FileOutputStream excelFou = null;
         BufferedOutputStream excelBou = null;
         XSSFWorkbook excelJTableExporter = null;
@@ -663,7 +588,7 @@ public class DataForm extends javax.swing.JFrame {
                 excelFou = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
                 excelBou = new BufferedOutputStream(excelFou);
                 excelJTableExporter.write(excelBou);
-                JOptionPane.showMessageDialog(null,"Success Export Excel");
+                JOptionPane.showMessageDialog(null, "Success Export Excel");
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {
@@ -683,17 +608,17 @@ public class DataForm extends javax.swing.JFrame {
                     ex.printStackTrace();
                 }
             }
-        } 
+        }
     }
-        
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CmbTahun;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cmbBulan;
     private javax.swing.JComboBox<String> cmbSemester;
+    private javax.swing.JComboBox<String> cmbTahun;
+    private javax.swing.JComboBox<String> cmbTriwulan;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

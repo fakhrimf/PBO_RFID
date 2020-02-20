@@ -39,20 +39,17 @@ public class HomeForm extends javax.swing.JFrame {
     DefaultTableModel model;
     DatabaseReference db;
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
-    boolean status_db = false, status_guru = false;
+    ArrayList<String[]> datalist = new ArrayList<String[]>();
 
     public void initguru() {
         gurulist.clear();
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
-                status_db = true;
                 for (DataSnapshot ss : ds.getChildren()) {
                     TeacherModel guru = ss.getValue(TeacherModel.class);
                     gurulist.add(guru);
                 }
-                status_guru = true;
-
             }
 
             @Override
@@ -71,9 +68,9 @@ public class HomeForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
         initguru();
-        responsive();
         getDataHome();
         showDataPresensi();
+        responsive();
 
         Border border = BorderFactory.createEmptyBorder();
         jList16.setBorder(new LineBorder(Color.black));
@@ -170,9 +167,6 @@ public class HomeForm extends javax.swing.JFrame {
         panelBtnHome.setBackground(new java.awt.Color(47, 51, 58));
         panelBtnHome.setPreferredSize(new java.awt.Dimension(347, 72));
         panelBtnHome.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBtnHomeMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 panelBtnHomeMouseReleased(evt);
             }
@@ -210,8 +204,8 @@ public class HomeForm extends javax.swing.JFrame {
         panelBtnPresensi.setBackground(new java.awt.Color(41, 43, 47));
         panelBtnPresensi.setPreferredSize(new java.awt.Dimension(347, 72));
         panelBtnPresensi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelBtnPresensiMouseClicked(evt);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                panelBtnPresensiMouseReleased(evt);
             }
         });
 
@@ -220,11 +214,6 @@ public class HomeForm extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Poppins", 0, 34)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(142, 146, 151));
         jLabel9.setText("Presensi");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelBtnPresensiLayout = new javax.swing.GroupLayout(panelBtnPresensi);
         panelBtnPresensi.setLayout(panelBtnPresensiLayout);
@@ -464,24 +453,6 @@ public class HomeForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void panelBtnHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnHomeMouseClicked
-
-    }//GEN-LAST:event_panelBtnHomeMouseClicked
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-//        // TODO add your handling code here:
-//        new PresensiForm().setVisible(true);
-//        this.setVisible(false);
-        panelBtnPresensi.setBackground(new java.awt.Color(47, 51, 58));
-        panelBtnHome.setBackground(new java.awt.Color(41, 43, 47));
-        jPanel17.setVisible(true);
-        jPanel1.setVisible(false);
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void panelBtnPresensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnPresensiMouseClicked
-//        showDataPresensi();
-    }//GEN-LAST:event_panelBtnPresensiMouseClicked
-
     private void panelBtnRekapanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnRekapanMouseClicked
         // TODO add your handling code here:
         new DataForm().setVisible(true);
@@ -496,53 +467,61 @@ public class HomeForm extends javax.swing.JFrame {
         getDataHome();
     }//GEN-LAST:event_panelBtnHomeMouseReleased
 
+    private void panelBtnPresensiMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnPresensiMouseReleased
+        panelBtnHome.setBackground(new java.awt.Color(41, 43, 47));
+        panelBtnPresensi.setBackground(new java.awt.Color(47, 51, 58));
+        jPanel1.setVisible(false);
+        jPanel17.setVisible(true);
+        showDataPresensi();
+    }//GEN-LAST:event_panelBtnPresensiMouseReleased
+
     /**
      * @param args the command line arguments
      */
+    boolean status_data = false;
+
+    private void addRowDTM() {
+        String[] kolom = {"No", "Nama", "Status"};
+        dtm = new DefaultTableModel(null, kolom);
+        for (int i = 0; i < datalist.size(); i++) {
+            dtm.addRow(datalist.get(i));
+        }
+        jTable1.setModel(dtm);
+    }
+
     private void getDataHome() {
-        if (status_db && status_guru) {
-            String[] kolom = {"No", "Nama", "Status"};
-            dtm = new DefaultTableModel(null, kolom);
-            DatabaseReference dbRef2 = null;
-            try {
-                dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
-            System.out.println("DBnya : " + dbRef2);
-            for (int i = 0; i < gurulist.size(); i++) {
-                final TeacherModel owoguru = gurulist.get(i);
-                final String no = String.valueOf(i+1);
-                dbRef2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dPresensi) {
-                        for (DataSnapshot data : dPresensi.getChildren()) {
-                            DailyDataModel ddm = data.getValue(DailyDataModel.class);
-                            if (ddm.getId().equals(owoguru.getRfid_key())) {
-                                dtm.addRow(new String[]{no, owoguru.getName(), "Hadir"});
-                            } else {
-                                dtm.addRow(new String[]{no, owoguru.getName(), "Tidak Hadir"});
-                            }
+        datalist.clear();
+        DatabaseReference dbRef2 = null;
+        try {
+            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        System.out.println("DBnya : " + dbRef2);
+        for (int i = 0; i < gurulist.size(); i++) {
+            final TeacherModel owoguru = gurulist.get(i);
+            final String no = String.valueOf(i + 1);
+            dbRef2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dPresensi) {
+                    for (DataSnapshot data : dPresensi.getChildren()) {
+                        DailyDataModel ddm = data.getValue(DailyDataModel.class);
+                        if (ddm.getId().equals(owoguru.getRfid_key())) {
+                            datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
+                        } else {
+                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
                         }
                     }
+                    addRowDTM();
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError de) {
-                        System.out.println("The read failed: " + de.getCode());
-                    }
+                @Override
+                public void onCancelled(DatabaseError de) {
+                    System.out.println("The read failed: " + de.getCode());
+                }
 
-                });
-            }
-            jTable1.setModel(dtm);
-        } else if (status_db&&!status_guru) {
-            JOptionPane.showMessageDialog(null, "Cek Database Guru");
-            initguru();
-        }else{
-            JOptionPane.showMessageDialog(null, "Cek Koneksi");
-            initguru();
+            });
         }
-        
-
     }
 
     private void showDataPresensi() {

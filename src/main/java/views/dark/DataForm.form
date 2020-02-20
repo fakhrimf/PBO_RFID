@@ -137,9 +137,9 @@
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="cmbBulan" pref="225" max="32767" attributes="0"/>
                                   <Component id="labelKehadiran3" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="CmbTahun" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cmbTahun" alignment="0" max="32767" attributes="0"/>
                                   <Component id="cmbSemester" max="32767" attributes="0"/>
-                                  <Component id="jComboBox3" max="32767" attributes="0"/>
+                                  <Component id="cmbTriwulan" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -159,11 +159,11 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="labelKehadiran3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jComboBox3" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="cmbTriwulan" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="cmbSemester" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="CmbTahun" min="-2" pref="46" max="-2" attributes="0"/>
+                      <Component id="cmbTahun" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="cmbBulan" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -188,7 +188,7 @@
             <Component class="javax.swing.JComboBox" name="cmbBulan">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="12">
+                  <StringArray count="13">
                     <StringItem index="0" value="[ Pilih Bulan ]"/>
                     <StringItem index="1" value="01"/>
                     <StringItem index="2" value="02"/>
@@ -200,7 +200,8 @@
                     <StringItem index="8" value="08"/>
                     <StringItem index="9" value="09"/>
                     <StringItem index="10" value="10"/>
-                    <StringItem index="11" value="12"/>
+                    <StringItem index="11" value="11"/>
+                    <StringItem index="12" value="12"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -221,7 +222,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel5MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="CmbTahun">
+            <Component class="javax.swing.JComboBox" name="cmbTahun">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="22">
@@ -251,7 +252,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CmbTahunActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTahunActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -261,7 +262,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
-                    <StringItem index="0" value="[ Pilih Semseter ]"/>
+                    <StringItem index="0" value="[ Pilih Semester ]"/>
                     <StringItem index="1" value="1"/>
                     <StringItem index="2" value="2"/>
                   </StringArray>
@@ -274,7 +275,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox3">
+            <Component class="javax.swing.JComboBox" name="cmbTriwulan">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="5">
@@ -287,7 +288,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbTriwulanActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
