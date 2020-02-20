@@ -122,7 +122,7 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel label_Kehadiran;
+    public javax.swing.JLabel label_Kehadiran;
     private javax.swing.JLabel label_absen;
     private javax.swing.JLabel label_nama;
     private javax.swing.JLabel label_waktu;
