@@ -40,7 +40,7 @@ public class presensiTemplate extends javax.swing.JPanel implements ListCellRend
         label_Kehadiran = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
 
-        jPanel1.setBackground(new java.awt.Color(44, 47, 51));
+        jPanel1.setBackground(new java.awt.Color(47, 51, 58));
 
         panelAbsen.setBackground(new java.awt.Color(32, 34, 37));
         panelAbsen.setMaximumSize(new java.awt.Dimension(0, 32767));
