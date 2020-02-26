@@ -10,16 +10,32 @@ package models;
  * @author ADITYA
  */
 public class TeacherModel {
-    private String name,password,rfid_key,username;
+
+    private String name, password, rfid_key, username, gnrs = "Testing";
+    private int jml_masuk = 0;
     
-    public TeacherModel(){
-        
+    public TeacherModel() {
+
     }
-    public TeacherModel(String name, String password, String rfid_key, String username) {
+    public TeacherModel(String name, String password, String rfid_key, String username, String gnrs,int jml_masuk) {
         this.name = name;
         this.password = password;
         this.rfid_key = rfid_key;
         this.username = username;
+        this.gnrs = gnrs;
+        this.jml_masuk = jml_masuk;
+    }
+
+    public String getGnrs() {
+        return gnrs;
+    }
+
+    public int getJml_masuk() {
+        return jml_masuk;
+    }
+
+    public void setJml_masuk(int jml_masuk) {
+        this.jml_masuk = jml_masuk;
     }
 
     public String getName() {
@@ -37,5 +53,5 @@ public class TeacherModel {
     public String getUsername() {
         return username;
     }
-    
+
 }

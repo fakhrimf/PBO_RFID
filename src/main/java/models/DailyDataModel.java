@@ -12,18 +12,20 @@ package models;
 public class DailyDataModel {
     private String id;
     private String tanggal;
-    private String waktu_masuk;
     private String waktu_keluar;
+    private String waktu_masuk;
+
+    public DailyDataModel(String id, String tanggal, String waktu_keluar, String waktu_masuk) {
+        this.id = id;
+        this.tanggal = tanggal;
+        this.waktu_keluar = waktu_keluar;
+        this.waktu_masuk = waktu_masuk;
+    }
     
     public DailyDataModel(){
         
     }
-    public DailyDataModel(String waktu_masuk, String waktu_keluar, String id, String tanggal) {
-        this.id = id;
-        this.tanggal = tanggal;
-        this.waktu_masuk = waktu_masuk;
-        this.waktu_keluar = waktu_keluar;
-    }
+    
 
     public String getId() {
         return id;

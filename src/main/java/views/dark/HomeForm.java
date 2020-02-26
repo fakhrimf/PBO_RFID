@@ -12,12 +12,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.*;
+import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -39,20 +49,19 @@ public class HomeForm extends javax.swing.JFrame {
     DefaultTableModel model;
     DatabaseReference db;
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
+    ArrayList<String[]> datalist = new ArrayList<String[]>();
     boolean status_db = false, status_guru = false;
+    int progress_value;
 
     public void initguru() {
         gurulist.clear();
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
-                status_db = true;
                 for (DataSnapshot ss : ds.getChildren()) {
                     TeacherModel guru = ss.getValue(TeacherModel.class);
                     gurulist.add(guru);
                 }
-                status_guru = true;
-
             }
 
             @Override
@@ -71,13 +80,65 @@ public class HomeForm extends javax.swing.JFrame {
             System.out.println(ex);
         }
         initguru();
-        responsive();
         getDataHome();
         showDataPresensi();
-
-        Border border = BorderFactory.createEmptyBorder();
-        jList16.setBorder(new LineBorder(Color.black));
-        jList16.setOpaque(true);
+        responsive();
+        
+        try{
+                for(int a=1;a<=100;a++){
+                 abc(50);
+                
+                }
+                
+            }catch(Exception e)
+            {
+                System.out.println(e);
+            }
+    }
+    
+     public void abc(int a){
+        progress_value=a;
+    
+    }
+     
+    public void paint(Graphics g){
+        super.paint(g);
+        
+        Graphics2D g2=(Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        g2.translate(this.getWidth()/2, this.getHeight()/2);
+        g2.rotate(Math.toRadians(270));
+        
+        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
+        
+        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
+        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
+        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
+        
+        arc.setAngleStart(1);
+        arc.setAngleExtent(-progress_value*3.6);
+        g2.setColor(new Color(85, 99, 233));
+        g2.draw(arc);
+        g2.fill(arc);
+        
+        g2.setColor(new Color(32,34,37));
+        g2.draw(circle);
+        g2.fill(circle);
+        g2.setColor(new Color(85, 99, 233));
+        g2.rotate(Math.toRadians(90));
+        g.setFont(new Font("Poppins",Font.PLAIN,60));
+        
+        FontMetrics fm=g2.getFontMetrics();
+        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
+        
+        int x=(0-(int)r.getWidth()/2);
+        int y=(0-(int)r.getHeight()/2+fm.getAscent());
+        
+        g2.drawString(progress_value+"%",x,y);
+        
+        JPanel panel1 = this.jPanel1;
+        panel1.setLayout(new java.awt.BorderLayout());
     }
 
     private void responsive() {
@@ -465,8 +526,7 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addComponent(panelSidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
                     .addGap(0, 429, Short.MAX_VALUE)
@@ -529,57 +589,67 @@ public class HomeForm extends javax.swing.JFrame {
         getDataHome();
     }//GEN-LAST:event_panelBtnHomeMouseReleased
 
+
     private void panelBtnHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnHomeMouseClicked
 
     }//GEN-LAST:event_panelBtnHomeMouseClicked
 
+    private void panelBtnPresensiMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnPresensiMouseReleased
+        panelBtnHome.setBackground(new java.awt.Color(41, 43, 47));
+        panelBtnPresensi.setBackground(new java.awt.Color(47, 51, 58));
+        jPanel1.setVisible(false);
+        jPanel17.setVisible(true);
+        showDataPresensi();
+    }//GEN-LAST:event_panelBtnPresensiMouseReleased
+
+
     /**
      * @param args the command line arguments
      */
+    boolean status_data = false;
+
+    private void addRowDTM() {
+        String[] kolom = {"No", "Nama", "Status"};
+        dtm = new DefaultTableModel(null, kolom);
+        for (int i = 0; i < datalist.size(); i++) {
+            dtm.addRow(datalist.get(i));
+        }
+        jTable1.setModel(dtm);
+    }
+
     private void getDataHome() {
-        if (status_db && status_guru) {
-            String[] kolom = {"No", "Nama", "Status"};
-            dtm = new DefaultTableModel(null, kolom);
-            DatabaseReference dbRef2 = null;
-            try {
-                dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
-            System.out.println("DBnya : " + dbRef2);
-            for (int i = 0; i < gurulist.size(); i++) {
-                final TeacherModel owoguru = gurulist.get(i);
-                final String no = String.valueOf(i+1);
-                dbRef2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dPresensi) {
-                        for (DataSnapshot data : dPresensi.getChildren()) {
-                            DailyDataModel ddm = data.getValue(DailyDataModel.class);
-                            if (ddm.getId().equals(owoguru.getRfid_key())) {
-                                dtm.addRow(new String[]{no, owoguru.getName(), "Hadir"});
-                            } else {
-                                dtm.addRow(new String[]{no, owoguru.getName(), "Tidak Hadir"});
-                            }
+        datalist.clear();
+        DatabaseReference dbRef2 = null;
+        try {
+            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        System.out.println("DBnya : " + dbRef2);
+        for (int i = 0; i < gurulist.size(); i++) {
+            final TeacherModel owoguru = gurulist.get(i);
+            final String no = String.valueOf(i + 1);
+            dbRef2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dPresensi) {
+                    for (DataSnapshot data : dPresensi.getChildren()) {
+                        DailyDataModel ddm = data.getValue(DailyDataModel.class);
+                        if (ddm.getId().equals(owoguru.getRfid_key())) {
+                            datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
+                        } else {
+                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
                         }
                     }
+                    addRowDTM();
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError de) {
-                        System.out.println("The read failed: " + de.getCode());
-                    }
+                @Override
+                public void onCancelled(DatabaseError de) {
+                    System.out.println("The read failed: " + de.getCode());
+                }
 
-                });
-            }
-            jTable1.setModel(dtm);
-        } else if (status_db&&!status_guru) {
-            JOptionPane.showMessageDialog(null, "Cek Database Guru");
-            initguru();
-        }else{
-            JOptionPane.showMessageDialog(null, "Cek Koneksi");
-            initguru();
+            });
         }
-        
-
     }
 
     private void showDataPresensi() {
