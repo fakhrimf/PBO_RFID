@@ -51,7 +51,7 @@ public class HomeForm extends javax.swing.JFrame {
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
     ArrayList<String[]> datalist = new ArrayList<String[]>();
     boolean status_db = false, status_guru = false;
-    int progress_value;
+//    int progress_value;
 
     public void initguru() {
         gurulist.clear();
@@ -85,65 +85,65 @@ public class HomeForm extends javax.swing.JFrame {
         responsive();
 
         Border border = BorderFactory.createEmptyBorder();
-        jList16.setBorder(new LineBorder(Color.black));
+        jList16.setBorder(new LineBorder(new java.awt.Color(47, 51, 58)));
         jList16.setOpaque(true);
-        
-        try{
-                for(int a=1;a<=100;a++){
-                 abc(50);
-                
-                }
-                
-            }catch(Exception e)
-            {
-                System.out.println(e);
-            }
+//        
+//        try{
+//                for(int a=1;a<=100;a++){
+//                 abc(50);
+//                
+//                }
+//                
+//            }catch(Exception e)
+//            {
+//                System.out.println(e);
+//            }
     }
     
-     public void abc(int a){
-        progress_value=a;
-    
-    }
+//     public void abc(int a){
+//        progress_value=a;
+//    
+//    }
      
-    public void paint(Graphics g){
-        super.paint(g);
-        
-        Graphics2D g2=(Graphics2D)g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        g2.translate(this.getWidth()/2, this.getHeight()/2);
-        g2.rotate(Math.toRadians(270));
-        
-        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
-        
-        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
-        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
-        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
-        
-        arc.setAngleStart(1);
-        arc.setAngleExtent(-progress_value*3.6);
-        g2.setColor(new Color(85, 99, 233));
-        g2.draw(arc);
-        g2.fill(arc);
-        
-        g2.setColor(new Color(32,34,37));
-        g2.draw(circle);
-        g2.fill(circle);
-        g2.setColor(new Color(85, 99, 233));
-        g2.rotate(Math.toRadians(90));
-        g.setFont(new Font("Poppins",Font.PLAIN,60));
-        
-        FontMetrics fm=g2.getFontMetrics();
-        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
-        
-        int x=(0-(int)r.getWidth()/2);
-        int y=(0-(int)r.getHeight()/2+fm.getAscent());
-        
-        g2.drawString(progress_value+"%",x,y);
-        
-        JPanel panel1 = this.jPanel1;
-        panel1.setLayout(new java.awt.BorderLayout());
-    }
+//    public void paint(Graphics g){
+//        super.paint(g);
+//        
+//        Graphics2D g2=(Graphics2D)g;
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+//        
+//        g2.translate(this.getWidth()/2, this.getHeight()/2);
+//        g2.rotate(Math.toRadians(270));
+//        
+//        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
+//        
+//        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
+//        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
+//        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
+//        
+//        arc.setAngleStart(1);
+//        arc.setAngleExtent(-progress_value*3.6);
+//        g2.setColor(new Color(85, 99, 233));
+//        g2.draw(arc);
+//        g2.fill(arc);
+//        
+//        g2.setColor(new Color(32,34,37));
+//        g2.draw(circle);
+//        g2.fill(circle);
+//        g2.setColor(new Color(85, 99, 233));
+//        g2.rotate(Math.toRadians(90));
+//        g.setFont(new Font("Poppins",Font.PLAIN,60));
+//        
+//        FontMetrics fm=g2.getFontMetrics();
+//        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
+//        
+//        int x=(0-(int)r.getWidth()/2);
+//        int y=(0-(int)r.getHeight()/2+fm.getAscent());
+//        
+//        g2.drawString(progress_value+"%",x,y);
+//        
+//        JPanel panel1 = this.panelAbsen;
+//        panel1.setLayout(new java.awt.BorderLayout());
+//    }
 
     private void responsive() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -174,6 +174,7 @@ public class HomeForm extends javax.swing.JFrame {
         panelBtnRekapan = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         panelAbsen = new javax.swing.JPanel();
         labelKehadiran = new javax.swing.JLabel();
@@ -185,11 +186,11 @@ public class HomeForm extends javax.swing.JFrame {
         jList16 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1052, 679));
+        setSize(new java.awt.Dimension(0, 0));
 
         panelMain.setBackground(new java.awt.Color(47, 51, 58));
         panelMain.setPreferredSize(new java.awt.Dimension(1280, 720));
-        panelMain.setRequestFocusEnabled(false);
 
         panelHeader.setBackground(new java.awt.Color(32, 34, 37));
 
@@ -264,7 +265,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnHomeLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -301,7 +302,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnPresensiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnPresensiLayout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -337,7 +338,7 @@ public class HomeForm extends javax.swing.JFrame {
                 .addGroup(panelBtnRekapanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBtnRekapanLayout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 8, Short.MAX_VALUE))
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -376,8 +377,11 @@ public class HomeForm extends javax.swing.JFrame {
                 .addComponent(panelBtnPresensi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBtnRekapan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
+
+        jPanel2.setBackground(new java.awt.Color(47, 51, 58));
+        jPanel2.setPreferredSize(new java.awt.Dimension(629, 558));
 
         jPanel1.setBackground(new java.awt.Color(47, 51, 58));
 
@@ -396,7 +400,7 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(panelAbsenLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(labelKehadiran, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 343, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 472, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18))
         );
@@ -443,36 +447,63 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)))
+            .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))
         );
 
         jPanel17.setBackground(new java.awt.Color(47, 51, 58));
 
         jList16.setBackground(new java.awt.Color(47, 51, 58));
+        jList16.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jScrollPane17.setViewportView(jList16);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 1146, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1124, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane17)
+            .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1144, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 702, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -484,11 +515,11 @@ public class HomeForm extends javax.swing.JFrame {
                 .addComponent(panelSidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(425, 425, 425)
-                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 1210, Short.MAX_VALUE))
+            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                    .addGap(0, 489, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1144, Short.MAX_VALUE)))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,24 +527,22 @@ public class HomeForm extends javax.swing.JFrame {
                 .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelSidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                    .addGap(0, 42, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 1604, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 1633, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
         );
 
         pack();
@@ -545,7 +574,6 @@ public class HomeForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     boolean status_data = false;
-
     private void addRowDTM() {
         String[] kolom = {"No", "Nama", "Status"};
         dtm = new DefaultTableModel(null, kolom);
@@ -558,8 +586,11 @@ public class HomeForm extends javax.swing.JFrame {
     private void getDataHome() {
         datalist.clear();
         DatabaseReference dbRef2 = null;
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.now();
+//        System.out.println(dtf.format(localDate));
         try {
-            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
+            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child(dtf.format(localDate));
         } catch (IOException ex) {
             System.out.println(ex);
         }
@@ -574,9 +605,12 @@ public class HomeForm extends javax.swing.JFrame {
                         DailyDataModel ddm = data.getValue(DailyDataModel.class);
                         if (ddm.getId().equals(owoguru.getRfid_key())) {
                             datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
+                            continue;
                         } else {
-                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
+//                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
+//                            continue;
                         }
+                        
                     }
                     addRowDTM();
                 }
@@ -587,7 +621,9 @@ public class HomeForm extends javax.swing.JFrame {
                 }
 
             });
+            
         }
+        
     }
 
     private void showDataPresensi() {
@@ -687,6 +723,7 @@ public class HomeForm extends javax.swing.JFrame {
     private javax.swing.JList<PresensiModel> jList16;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane17;
     private javax.swing.JTable jTable1;
