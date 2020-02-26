@@ -51,7 +51,7 @@ public class HomeForm extends javax.swing.JFrame {
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
     ArrayList<String[]> datalist = new ArrayList<String[]>();
     boolean status_db = false, status_guru = false;
-    int progress_value;
+//    int progress_value;
 
     public void initguru() {
         gurulist.clear();
@@ -83,63 +83,63 @@ public class HomeForm extends javax.swing.JFrame {
         getDataHome();
         showDataPresensi();
         responsive();
-        
-        try{
-                for(int a=1;a<=100;a++){
-                 abc(50);
-                
-                }
-                
-            }catch(Exception e)
-            {
-                System.out.println(e);
-            }
+//        
+//        try{
+//                for(int a=1;a<=100;a++){
+//                 abc(50);
+//                
+//                }
+//                
+//            }catch(Exception e)
+//            {
+//                System.out.println(e);
+//            }
     }
     
-     public void abc(int a){
-        progress_value=a;
-    
-    }
+//     public void abc(int a){
+//        progress_value=a;
+//    
+//    }
      
-    public void paint(Graphics g){
-        super.paint(g);
-        
-        Graphics2D g2=(Graphics2D)g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        
-        g2.translate(this.getWidth()/2, this.getHeight()/2);
-        g2.rotate(Math.toRadians(270));
-        
-        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
-        
-        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
-        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
-        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
-        
-        arc.setAngleStart(1);
-        arc.setAngleExtent(-progress_value*3.6);
-        g2.setColor(new Color(85, 99, 233));
-        g2.draw(arc);
-        g2.fill(arc);
-        
-        g2.setColor(new Color(32,34,37));
-        g2.draw(circle);
-        g2.fill(circle);
-        g2.setColor(new Color(85, 99, 233));
-        g2.rotate(Math.toRadians(90));
-        g.setFont(new Font("Poppins",Font.PLAIN,60));
-        
-        FontMetrics fm=g2.getFontMetrics();
-        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
-        
-        int x=(0-(int)r.getWidth()/2);
-        int y=(0-(int)r.getHeight()/2+fm.getAscent());
-        
-        g2.drawString(progress_value+"%",x,y);
-        
-        JPanel panel1 = this.jPanel1;
-        panel1.setLayout(new java.awt.BorderLayout());
-    }
+//    public void paint(Graphics g){
+//        super.paint(g);
+//        
+//        Graphics2D g2=(Graphics2D)g;
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+//        
+//        g2.translate(this.getWidth()/2, this.getHeight()/2);
+//        g2.rotate(Math.toRadians(270));
+//        
+//        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
+//        
+//        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
+//        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
+//        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
+//        
+//        arc.setAngleStart(1);
+//        arc.setAngleExtent(-progress_value*3.6);
+//        g2.setColor(new Color(85, 99, 233));
+//        g2.draw(arc);
+//        g2.fill(arc);
+//        
+//        g2.setColor(new Color(32,34,37));
+//        g2.draw(circle);
+//        g2.fill(circle);
+//        g2.setColor(new Color(85, 99, 233));
+//        g2.rotate(Math.toRadians(90));
+//        g.setFont(new Font("Poppins",Font.PLAIN,60));
+//        
+//        FontMetrics fm=g2.getFontMetrics();
+//        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
+//        
+//        int x=(0-(int)r.getWidth()/2);
+//        int y=(0-(int)r.getHeight()/2+fm.getAscent());
+//        
+//        g2.drawString(progress_value+"%",x,y);
+//        
+//        JPanel panel1 = this.panelAbsen;
+//        panel1.setLayout(new java.awt.BorderLayout());
+//    }
 
     private void responsive() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -405,9 +405,9 @@ public class HomeForm extends javax.swing.JFrame {
         panelAbsenLayout.setHorizontalGroup(
             panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAbsenLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(47, 47, 47)
                 .addComponent(labelKehadiran, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 266, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18))
         );
@@ -417,9 +417,10 @@ public class HomeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                    .addGroup(panelAbsenLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsenLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(labelKehadiran)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(93, 93, 93)))
                 .addContainerGap())
         );
 
@@ -607,7 +608,6 @@ public class HomeForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     boolean status_data = false;
-
     private void addRowDTM() {
         String[] kolom = {"No", "Nama", "Status"};
         dtm = new DefaultTableModel(null, kolom);
@@ -620,8 +620,11 @@ public class HomeForm extends javax.swing.JFrame {
     private void getDataHome() {
         datalist.clear();
         DatabaseReference dbRef2 = null;
+         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.now();
+//        System.out.println(dtf.format(localDate));
         try {
-            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child("2020-02-20");
+            dbRef2 = FirebaseConnection.getRef("RekapHarianBaru").child(dtf.format(localDate));
         } catch (IOException ex) {
             System.out.println(ex);
         }
@@ -636,9 +639,12 @@ public class HomeForm extends javax.swing.JFrame {
                         DailyDataModel ddm = data.getValue(DailyDataModel.class);
                         if (ddm.getId().equals(owoguru.getRfid_key())) {
                             datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
+                            continue;
                         } else {
-                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
+//                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
+//                            continue;
                         }
+                        
                     }
                     addRowDTM();
                 }
@@ -649,7 +655,9 @@ public class HomeForm extends javax.swing.JFrame {
                 }
 
             });
+            
         }
+        
     }
 
     private void showDataPresensi() {
