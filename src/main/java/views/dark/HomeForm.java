@@ -51,7 +51,7 @@ public class HomeForm extends javax.swing.JFrame {
     ArrayList<TeacherModel> gurulist = new ArrayList<TeacherModel>();
     ArrayList<String[]> datalist = new ArrayList<String[]>();
     boolean status_db = false, status_guru = false;
-//    int progress_value;
+    int progress_value;
 
     public void initguru() {
         gurulist.clear();
@@ -83,63 +83,61 @@ public class HomeForm extends javax.swing.JFrame {
         getDataHome();
         showDataPresensi();
         responsive();
-//        
-//        try{
-//                for(int a=1;a<=100;a++){
-//                 abc(50);
-//                
-//                }
-//                
-//            }catch(Exception e)
-//            {
-//                System.out.println(e);
-//            }
+        
+            
     }
+    int jumlah_hadir = 0;
+     public void initStatistik(){
+         try{
+             int persen = (jumlah_hadir*100/gurulist.size());
+         System.out.println("OwO : "+persen);
+        progress_value= persen;
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+         this.pack();
     
-//     public void abc(int a){
-//        progress_value=a;
-//    
-//    }
+    }
      
-//    public void paint(Graphics g){
-//        super.paint(g);
-//        
-//        Graphics2D g2=(Graphics2D)g;
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-//        
-//        g2.translate(this.getWidth()/2, this.getHeight()/2);
-//        g2.rotate(Math.toRadians(270));
-//        
-//        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
-//        
-//        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
-//        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
-//        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
-//        
-//        arc.setAngleStart(1);
-//        arc.setAngleExtent(-progress_value*3.6);
-//        g2.setColor(new Color(85, 99, 233));
-//        g2.draw(arc);
-//        g2.fill(arc);
-//        
-//        g2.setColor(new Color(32,34,37));
-//        g2.draw(circle);
-//        g2.fill(circle);
-//        g2.setColor(new Color(85, 99, 233));
-//        g2.rotate(Math.toRadians(90));
-//        g.setFont(new Font("Poppins",Font.PLAIN,60));
-//        
-//        FontMetrics fm=g2.getFontMetrics();
-//        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
-//        
-//        int x=(0-(int)r.getWidth()/2);
-//        int y=(0-(int)r.getHeight()/2+fm.getAscent());
-//        
-//        g2.drawString(progress_value+"%",x,y);
-//        
-//        JPanel panel1 = this.panelAbsen;
-//        panel1.setLayout(new java.awt.BorderLayout());
-//    }
+    public void paint(Graphics g){
+        super.paint(g);
+        
+        Graphics2D g2=(Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        g2.translate(this.getWidth()/1.3, this.getHeight()/3);
+        g2.rotate(Math.toRadians(270));
+        
+        Arc2D.Float arc=new Arc2D.Float(Arc2D.PIE);
+        
+        Ellipse2D circle=new Ellipse2D.Double(0,0,120,120);
+        arc.setFrameFromCenter(new Point(0,0), new Point(135,135));
+        circle.setFrameFromCenter(new Point(0,0), new Point(120,120));
+        
+        arc.setAngleStart(1);
+        arc.setAngleExtent(-progress_value*3.6);
+        g2.setColor(new Color(85, 99, 233));
+        g2.draw(arc);
+        g2.fill(arc);
+        
+        g2.setColor(new Color(32,34,37));
+        g2.draw(circle);
+        g2.fill(circle);
+        g2.setColor(new Color(85, 99, 233));
+        g2.rotate(Math.toRadians(90));
+        g.setFont(new Font("Poppins",Font.PLAIN,60));
+        
+        FontMetrics fm=g2.getFontMetrics();
+        Rectangle2D r=fm.getStringBounds(progress_value+"%", g);
+        
+        int x=(0-(int)r.getWidth()/2);
+        int y=(0-(int)r.getHeight()/2+fm.getAscent());
+        
+        g2.drawString(progress_value+"%",x,y);
+        
+        JPanel panel1 = this.Panel_persen;
+        panel1.setLayout(new java.awt.BorderLayout());
+    }
 
     private void responsive() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -176,7 +174,7 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         panelAbsen = new javax.swing.JPanel();
         labelKehadiran = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        Panel_persen = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel17 = new javax.swing.JPanel();
@@ -196,7 +194,7 @@ public class HomeForm extends javax.swing.JFrame {
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
             panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1371, Short.MAX_VALUE)
+            .addGap(0, 1280, Short.MAX_VALUE)
         );
         panelHeaderLayout.setVerticalGroup(
             panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,6 +274,9 @@ public class HomeForm extends javax.swing.JFrame {
         panelBtnPresensi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 panelBtnPresensiMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                panelBtnPresensiMouseReleased(evt);
             }
         });
 
@@ -398,7 +399,18 @@ public class HomeForm extends javax.swing.JFrame {
         labelKehadiran.setForeground(new java.awt.Color(142, 146, 151));
         labelKehadiran.setText("Kehadiran");
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Ellipse 2.png"))); // NOI18N
+        Panel_persen.setBackground(new java.awt.Color(32, 34, 37));
+
+        javax.swing.GroupLayout Panel_persenLayout = new javax.swing.GroupLayout(Panel_persen);
+        Panel_persen.setLayout(Panel_persenLayout);
+        Panel_persenLayout.setHorizontalGroup(
+            Panel_persenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        Panel_persenLayout.setVerticalGroup(
+            Panel_persenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout panelAbsenLayout = new javax.swing.GroupLayout(panelAbsen);
         panelAbsen.setLayout(panelAbsenLayout);
@@ -407,20 +419,19 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(panelAbsenLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(labelKehadiran, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 260, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Panel_persen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelAbsenLayout.setVerticalGroup(
             panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsenLayout.createSequentialGroup()
+                .addContainerGap(127, Short.MAX_VALUE)
+                .addComponent(labelKehadiran)
+                .addGap(105, 105, 105))
             .addGroup(panelAbsenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelAbsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAbsenLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(labelKehadiran)
-                        .addGap(93, 93, 93)))
+                .addComponent(Panel_persen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -459,15 +470,15 @@ public class HomeForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)))
+                    .addComponent(panelAbsen, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(panelAbsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
         );
 
         jPanel17.setBackground(new java.awt.Color(47, 51, 58));
@@ -490,7 +501,7 @@ public class HomeForm extends javax.swing.JFrame {
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel17Layout.createSequentialGroup()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -569,7 +580,7 @@ public class HomeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_panelBtnRekapanMouseClicked
 
     private void panelBtnPresensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelBtnPresensiMouseClicked
-        //        showDataPresensi();
+                showDataPresensi();
     }//GEN-LAST:event_panelBtnPresensiMouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
@@ -616,9 +627,10 @@ public class HomeForm extends javax.swing.JFrame {
         }
         jTable1.setModel(dtm);
     }
-
+    boolean status_owo = false;
     private void getDataHome() {
         datalist.clear();
+        jumlah_hadir = 0;
         DatabaseReference dbRef2 = null;
          DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.now();
@@ -632,21 +644,32 @@ public class HomeForm extends javax.swing.JFrame {
         for (int i = 0; i < gurulist.size(); i++) {
             final TeacherModel owoguru = gurulist.get(i);
             final String no = String.valueOf(i + 1);
+            status_owo = false;
             dbRef2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dPresensi) {
                     for (DataSnapshot data : dPresensi.getChildren()) {
                         DailyDataModel ddm = data.getValue(DailyDataModel.class);
                         if (ddm.getId().equals(owoguru.getRfid_key())) {
-                            datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
-                            continue;
+                            
+                            status_owo = true;
+                            break;
                         } else {
+                            status_owo=false;
 //                            datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
 //                            continue;
                         }
                         
                     }
-                    addRowDTM();
+                    if(status_owo == false){
+                        datalist.add(new String[]{no, owoguru.getName(), "Tidak Hadir"});
+                        addRowDTM();
+                    }else{
+                        datalist.add(new String[]{no, owoguru.getName(), "Hadir"});
+                        jumlah_hadir++;
+                        addRowDTM();
+                        initStatistik();
+                    }
                 }
 
                 @Override
@@ -655,6 +678,7 @@ public class HomeForm extends javax.swing.JFrame {
                 }
 
             });
+            
             
         }
         
@@ -744,10 +768,10 @@ public class HomeForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Panel_persen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
