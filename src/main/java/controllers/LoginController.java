@@ -5,14 +5,18 @@
  */
 package controllers;
 
-import views.LoginForm;
+import views.dark.LoginForm;
 
 /**
  *
  * @author Fakhri MF
  */
 public class LoginController {
-    public void showLoginForm(){
+    public LoginController() {
+        showLoginForm();
+    }
+
+    private void showLoginForm() {
         java.awt.EventQueue.invokeLater(() -> new LoginForm().setVisible(true));
     }
 }

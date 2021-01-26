@@ -6,6 +6,11 @@
 package PBO_RFID;
 
 import controllers.LoginController;
+import utils.SQLiteConnection;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  *
@@ -13,8 +18,8 @@ import controllers.LoginController;
  */
 public class Main {
     public static void main(String[] args) {
-        LoginController loginController = new LoginController();
-        loginController.showLoginForm();
+        new LoginController();
+        new SQLiteConnection();
     }
 
 }
